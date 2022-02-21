@@ -4,8 +4,8 @@
     <string name="username">Username</string>
     <string name="login_button">Log In</string>
     <string name="signup_button">Sign Up</string>
-
-
+    <string name="filter">Filter</string>
+    <string name="new_task">New Task</string>
 
 
     <string name="title_activity_login">LoginActivity</string>
