@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateTask">
+    tools:context=".CreateTaskActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                 android:text="@string/task_name_label" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName"
+                android:id="@+id/task_name_plainText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -43,9 +43,10 @@
                 android:text="@string/task_priority_label" />
 
             <Switch
-                android:id="@+id/switch1"
+                android:id="@+id/task_priority_switch"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:minHeight="48dp" />
 
         </TableRow>
 
@@ -60,10 +61,11 @@
                 android:text="@string/category_label" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/task_category_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:entries="@array/task_category_array"
+                android:minHeight="48dp"
                 android:textAlignment="textEnd" />
         </TableRow>
 
@@ -74,14 +76,14 @@
             android:text="@string/due_date_label" />
 
         <CalendarView
-            android:id="@+id/calendarView2"
+            android:id="@+id/task_due_date_calendarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/mCreateTask"
+        android:id="@+id/create_task_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
