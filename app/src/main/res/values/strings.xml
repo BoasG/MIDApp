@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">MIDApp</string>
+    <string name="create_task">Create Task</string>
+    <string name="task_name_label">Task Name:</string>
+    <string name="temp_name">Name</string>
+    <string name="task_priority_label">High Priority:</string>
+    <string name="due_date_label">Due Date:</string>
+    <string name="category_label">Task Category:</string>
+
+    <string-array name="task_category_array">
+        <item>Family</item>
+        <item>Friends</item>
+        <item>Hobbies</item>
+        <item>Household chores</item>
+        <item>Schoolwork</item>
+        <item>Self Care</item>
+        <item>Training and Competition</item>
+        <item>Work</item>
+    </string-array>
 </resources>
