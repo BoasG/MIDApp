@@ -10,7 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MIDApp">
         <activity
-            android:name=".CreateTaskActivity"
+  subscribe_branch
+            android:name=".subscribe"
+
             android:exported="false" />
         <activity
             android:name=".MainActivity"
