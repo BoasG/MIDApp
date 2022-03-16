@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MIDApp">
         <activity
+            android:name=".CreateTaskActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TaskActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

@@ -3,21 +3,45 @@ package is.hi.midapp;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+import is.hi.midapp.Persistance.Entities.Task;
+import is.hi.midapp.Persistance.Entities.TaskCategory;
+import is.hi.midapp.Persistance.Entities.TaskStatus;
+
 public class TaskActivity extends AppCompatActivity {
+
+    private Button mGoToCreateTaskButton;
+
 
     // initialize variables
     TextView textView;
     boolean[] selectedLanguage;
     ArrayList<Integer> langList = new ArrayList<>();
     String[] langArray = {"Priority", "Household chores", "Training and Competition", "Schoolwork", "Work", "Hobbies","Self Care","Family","Friends","Not Started","In progress", "Completed"};
+
+
+    Task task1 = new Task("task1", true,
+            null, null, new Date(2022-03-16),
+            TaskCategory.HOUSEHOLD, TaskStatus.NOT_STARTED);
+    Task task2 = new Task("task2", true,
+            null, null, new Date(2022-03-16),
+            TaskCategory.HOUSEHOLD, TaskStatus.NOT_STARTED);
+    ArrayList<String> tasks = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +53,20 @@ public class TaskActivity extends AppCompatActivity {
 
         // initialize selected language array
         selectedLanguage = new boolean[langArray.length];
+
+        tasks.add(task1.getName());
+        tasks.add(task2.getName());
+        ListView listView = (ListView) findViewById(R.id.list_task);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,tasks);
+        listView.setAdapter(adapter);
+
+        mGoToCreateTaskButton = (Button) findViewById(R.id.new_task);
+        mGoToCreateTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToCreateTask();
+            }
+        });
 
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,5 +146,11 @@ public class TaskActivity extends AppCompatActivity {
                 builder.show();
             }
         });
+    }
+
+    private void goToCreateTask() {
+        Intent i = new Intent(TaskActivity.this, CreateTaskActivity.class);
+        startActivity(i);
+
     }
 }

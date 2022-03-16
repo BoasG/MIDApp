@@ -10,6 +10,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     private Button mGoToCreateTaskButton;
+    private Button mGoToViewTaskButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +24,23 @@ public class MainActivity extends AppCompatActivity {
                 goToCreateTask();
             }
         });
+        mGoToViewTaskButton = (Button) findViewById(R.id.go_to_view_task_button);
+        mGoToViewTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToViewTask();
+            }
+        });
     }
 
     private void goToCreateTask() {
         Intent i = new Intent(MainActivity.this, CreateTaskActivity.class);
+        startActivity(i);
+
+    }
+
+    private void goToViewTask() {
+        Intent i = new Intent(MainActivity.this, TaskActivity.class);
         startActivity(i);
 
     }
