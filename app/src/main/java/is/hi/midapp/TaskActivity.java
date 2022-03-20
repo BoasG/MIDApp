@@ -2,6 +2,7 @@ package is.hi.midapp;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,26 +24,23 @@ import android.widget.Button;
 import is.hi.midapp.Persistance.Entities.Task;
 import is.hi.midapp.Persistance.Entities.TaskCategory;
 import is.hi.midapp.Persistance.Entities.TaskStatus;
+import is.hi.midapp.networking.NetworkCallback;
+import is.hi.midapp.networking.NetworkManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TaskActivity extends AppCompatActivity {
 
     private Button mGoToCreateTaskButton;
-
+    private List<Task> mAllTasks;
+    List<String> allTaskNames = new ArrayList<>();
 
     // initialize variables
     TextView textView;
     boolean[] selectedLanguage;
     ArrayList<Integer> langList = new ArrayList<>();
     String[] langArray = {"Priority", "Household chores", "Training and Competition", "Schoolwork", "Work", "Hobbies","Self Care","Family","Friends","Not Started","In progress", "Completed"};
-
-
-    Task task1 = new Task("task1", true,
-            null, null, new Date(2022-03-16),
-            TaskCategory.HOUSEHOLD, TaskStatus.NOT_STARTED);
-    Task task2 = new Task("task2", true,
-            null, null, new Date(2022-03-16),
-            TaskCategory.HOUSEHOLD, TaskStatus.NOT_STARTED);
-    ArrayList<String> tasks = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +50,42 @@ public class TaskActivity extends AppCompatActivity {
         // assign variable
         textView = findViewById(R.id.filter);
 
+        /*NetworkManager networkManager = NetworkManager.getInstance(this);
+        networkManager.getTasks(new NetworkCallback<List<Task>>() {
+            @Override
+            public void onSuccess(List<Task> result) {
+                mAllTasks = result;
+                Log.d("", "Fyrsta task er: " + mAllTasks.get(0).getName());
+                loadTasks();
+            }
+
+            @Override
+            public void onFailure(String errorString) {
+                Log.e("", "Failed to get tasks: " + errorString);
+            }
+        });*/
+        NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
+        Call<List<Task>> apiCall = networkCallback.getTasks();
+        apiCall.enqueue(new Callback<List<Task>>() {
+            @Override
+            public void onResponse(Call<List<Task>> apicall, Response<List<Task>> response) {
+                /// Once we get response, it can be success or failure
+                if (response.isSuccessful()) {
+                    /// If successful
+                    List<Task> listOfTasks = response.body();
+                    Log.d("", "Fyrsta task er: " + listOfTasks.get(0).getName());
+                    loadTasks(listOfTasks);
+                } else{ Log.d("", "No success but no failure "); }
+            }
+
+            @Override
+            public void onFailure(Call<List<Task>> apicall, Throwable t) {
+                Log.e("", "Failed to get tasks: ");
+            }
+        });
+
         // initialize selected language array
         selectedLanguage = new boolean[langArray.length];
-
-        tasks.add(task1.getName());
-        tasks.add(task2.getName());
-        ListView listView = (ListView) findViewById(R.id.list_task);
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,tasks);
-        listView.setAdapter(adapter);
 
         mGoToCreateTaskButton = (Button) findViewById(R.id.new_task);
         mGoToCreateTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -152,5 +179,18 @@ public class TaskActivity extends AppCompatActivity {
         Intent i = new Intent(TaskActivity.this, CreateTaskActivity.class);
         startActivity(i);
 
+    }
+
+    private void loadTasks(List<Task> listOfTasks){
+        ListView listView = (ListView) findViewById(R.id.list_task);
+
+        Log.d("", "loadTasks ");
+
+        for(int i = 0; i < listOfTasks.size(); i++){
+            allTaskNames.add(listOfTasks.get(i).getName());
+        }
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, allTaskNames);
+        //ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, tasks);
+        listView.setAdapter(adapter);
     }
 }
