@@ -1,20 +1,40 @@
 package is.hi.midapp.Persistance.Entities;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 public class Task {
 
     public long ID;
 
+    @SerializedName("name")
     private String name;
+    @SerializedName("priority")
     private Boolean priority;
+    @SerializedName("startDate")
     private Date startDate;
+    @SerializedName("endDate")
     private Date endDate;
+    @SerializedName("dueDate")
     private Date dueDate;
+    @SerializedName("category")
     private TaskCategory category;
+    @SerializedName("status")
     private TaskStatus status;
-
+    @SerializedName("motherTask")
     private Task motherTask;
+
+    public Task(String name, Boolean priority, Date startDate, Date endDate, Date dueDate,
+                TaskCategory taskCategory, TaskStatus taskStatus) {
+        this.name = name;
+        this.priority = priority;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.dueDate = dueDate;
+        this.category = taskCategory;
+        this.status = taskStatus;
+    }
 
 
     public Date getStartDate() {
@@ -42,17 +62,6 @@ public class Task {
     }
 
     public Task() {
-    }
-
-    public Task(String name, Boolean priority, Date startDate, Date endDate, Date dueDate,
-                TaskCategory taskCategory, TaskStatus taskStatus) {
-        this.name = name;
-        this.priority = priority;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.dueDate = dueDate;
-        this.category = taskCategory;
-        this.status = taskStatus;
     }
 
     public long getID() {
