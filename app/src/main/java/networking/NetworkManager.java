@@ -1,5 +1,4 @@
-package is.hi.midapp.networking;
-
+package networking;
 
 import android.content.Context;
 
@@ -13,48 +12,45 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.net.ContentHandler;
 import java.util.List;
 
 import is.hi.midapp.Persistance.Entities.Task;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-//Hlutverk ad saekja hluti fra networkinu og skila i gegnum callbac
 public class NetworkManager {
 
-    private static Retrofit retrofit = null;
-    private static final String BASE_URL = "http://10.0.2.2:9090";
+   /* private static Retrofit retrofit = null;
 
-    public static Retrofit getService() {
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return retrofit;
-    }
+    private static final String BASE_URL = "http://10.0.2.2:9090/";
 
-    /*private static NetworkManager mInstance;
+    public static Retrofit getService(){
+        return new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    } */
+
+    private static final String BASE_URL = "http://10.0.2.2:9090/";
+
+    private static NetworkManager mInstance;
     private static RequestQueue mQueue;
-    private static Context mContext;
-
+    private Context mContext;
 
     public static synchronized NetworkManager getInstance(Context context){
-        if (mInstance == null){
+        if(mInstance == null) {
             mInstance = new NetworkManager(context);
         }
         return mInstance;
     }
 
-    private NetworkManager(Context context){
+    private NetworkManager(Context context) {
         mContext = context;
         mQueue = getRequestQueue();
     }
 
-    public static RequestQueue getRequestQueue() {
-        if(mQueue == null){
+    public RequestQueue getRequestQueue() {
+        if(mQueue == null) {
             mQueue = Volley.newRequestQueue(mContext.getApplicationContext());
         }
         return mQueue;
@@ -62,13 +58,13 @@ public class NetworkManager {
 
     public void getTasks(final NetworkCallback<List<Task>> callback){
         StringRequest request = new StringRequest(
-                Request.Method.GET, BASE_URL + "homeAPI", new Response.Listener<String>() {
+                Request.Method.GET, BASE_URL + "home", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<Task>>(){}.getType();
-                List<Task> allTasks = gson.fromJson(response, listType);
-                callback.onSuccess(allTasks);
+                List<Task> taskBank = gson.fromJson(response, listType);
+                callback.onSuccess(taskBank);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -78,6 +74,5 @@ public class NetworkManager {
         }
         );
         mQueue.add(request);
-    }*/
-
+    }
 }
