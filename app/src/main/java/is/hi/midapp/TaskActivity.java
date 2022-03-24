@@ -58,7 +58,6 @@ public class TaskActivity extends AppCompatActivity {
     ArrayList<Integer> langList = new ArrayList<>();
     //TODO: Breyta þannig að filterar noti enum strengi
     String[] langArray = {"High Priority", "Low Priority", "Household chores", "Training and Competition", "Schoolwork", "Work", "Hobbies","Self Care","Family","Friends","Not Started","In progress", "Completed"};
-    //String[] langArray = {"High Priority", "Schoolwork","Not Started"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
