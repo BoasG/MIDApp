@@ -29,6 +29,22 @@ public interface NetworkCallback {
             @Query("category") String category,
             @Query("status") String status);
 
+    @GET("homefAPI")
+    Call<List<Task>> findTasks(
+            @Query("priority1") Boolean priority1,
+            @Query("priority2") Boolean priority2,
+            @Query("category1") String category1,
+            @Query("category2") String category2,
+            @Query("category3") String category3,
+            @Query("category4") String category4,
+            @Query("category5") String category5,
+            @Query("category6") String category6,
+            @Query("category7") String category7,
+            @Query("category8") String category8,
+            @Query("status1") String status1,
+            @Query("status2") String status2,
+            @Query("status3") String status3);
+
     @GET("homesAPI")
     Call<List<Task>> getTaskByName(
             @Query("name") String name);

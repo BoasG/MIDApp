@@ -38,15 +38,27 @@ public class TaskActivity extends AppCompatActivity {
     // initialize variables
     TextView textView;
     boolean[] selectedFilters;
-    boolean fPriority = false;
-    String fCategory = null;
-    String fStatus = null;
+    String[] allFilters;
+    //TODO: Setja í fylki
+    boolean fPriority1 = false;
+    boolean fPriority2 = false;
+    String fCategory1 = "";
+    String fCategory2 = "";
+    String fCategory3 = "";
+    String fCategory4 = "";
+    String fCategory5 = "";
+    String fCategory6 = "";
+    String fCategory7 = "";
+    String fCategory8 = "";
+    String fStatus1 = "";
+    String fStatus2 = "";
+    String fStatus3 = "";
 
     List<String> allTaskNames = new ArrayList<>();
     ArrayList<Integer> langList = new ArrayList<>();
     //TODO: Breyta þannig að filterar noti enum strengi
-    //String[] langArray = {"Priority", "Household chores", "Training and Competition", "Schoolwork", "Work", "Hobbies","Self Care","Family","Friends","Not Started","In progress", "Completed"};
-    String[] langArray = {"High Priority", "Schoolwork","Not Started"};
+    String[] langArray = {"High Priority", "Low Priority", "Household chores", "Training and Competition", "Schoolwork", "Work", "Hobbies","Self Care","Family","Friends","Not Started","In progress", "Completed"};
+    //String[] langArray = {"High Priority", "Schoolwork","Not Started"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +74,7 @@ public class TaskActivity extends AppCompatActivity {
 
         // initialize selected language array
         selectedFilters = new boolean[langArray.length];
+        allFilters = new String[langArray.length];
         SearchView mSearch = (SearchView) findViewById(R.id.search); //Initiate a search view
         mSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -97,7 +110,7 @@ public class TaskActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                resetFilters();
                 // Initialize alert dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(TaskActivity.this);
 
@@ -143,16 +156,14 @@ public class TaskActivity extends AppCompatActivity {
                             }
                         }
                         //TODO: Láta filtera virka bæði fyrir fáa og alla
-                        if(selectedFilters[0] == true){
-                            fPriority = true;
-                        }
-                        if(selectedFilters[1] == true){
-                            fCategory = "SCHOOL";
-                        }
-                        if(selectedFilters[2] == true){
-                            fStatus = "NOT_STARTED";
-                        }
-                        Call<List<Task>> apiCall = networkCallback.getTasksWFilters(fPriority, fCategory, fStatus);
+                        getFilters(selectedFilters);
+                        //TODO: Setja í fylki
+                        //Call<List<Task>> apiCall = networkCallback.getTasksWFilters(fPriority, fCategory, fStatus);
+                        Call<List<Task>> apiCall = networkCallback.findTasks(fPriority1, fPriority2,
+                                fCategory1, fCategory2, fCategory3, fCategory4,
+                                fCategory5, fCategory6, fCategory7, fCategory8,
+                                fStatus1, fStatus2, fStatus3);
+                        //Call<List<Task>> apiCall = networkCallback.findTasks(allFilters);
                         callNetworkList(apiCall);
                     }
                 });
@@ -204,6 +215,78 @@ public class TaskActivity extends AppCompatActivity {
         }
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, allTaskNames);
         listView.setAdapter(adapter);
+    }
+
+    private void getFilters(boolean[] selectedFilters){
+        //TODO: Setja í fylki
+        if(selectedFilters[0] == true){
+            //allFilters[0] = "true";
+            fPriority1 = true;
+        }
+        if(selectedFilters[1] == true){
+            //allFilters[1] = "true";
+            fPriority2 = true;
+        }
+        if(selectedFilters[2] == true){
+            //allFilters[2] = "HOUSEHOLD";
+            fCategory1 = "HOUSEHOLD";
+        }
+        if(selectedFilters[3] == true){
+            //allFilters[3] = "SPORTS";
+            fCategory2 = "SPORTS";
+        }
+        if(selectedFilters[4] == true){
+            //allFilters[4] = "SCHOOL";
+            fCategory3 = "SCHOOL";
+        }
+        if(selectedFilters[5] == true){
+            //allFilters[5] = "WORK";
+            fCategory4 = "WORK";
+        }
+        if(selectedFilters[6] == true){
+            //allFilters[6] = "HOBBIES";
+            fCategory5 = "HOBBIES";
+        }
+        if(selectedFilters[7] == true){
+            //allFilters[7] = "SELF_CARE";
+            fCategory6 = "SELF_CARE";
+        }
+        if(selectedFilters[8] == true){
+            //allFilters[8] = "FAMILY";
+            fCategory7 = "FAMILY";
+        }
+        if(selectedFilters[9] == true){
+            //allFilters[9] = "FRIENDS";
+            fCategory8 = "FRIENDS";
+        }
+        if(selectedFilters[10] == true){
+            //allFilters[10] = "NOT_STARTED";
+            fStatus1 = "NOT_STARTED";
+        }
+        if(selectedFilters[11] == true){
+            //allFilters[11] = "IN_PROGRESS";
+            fStatus2 = "IN_PROGRESS";
+        }
+        if(selectedFilters[12] == true){
+            //allFilters[12] = "COMPLETED";
+            fStatus3 = "COMPLETED";
+        }
+    }
+
+    private void resetFilters(){
+        fPriority1 = false;
+        fPriority2 = false;
+        fCategory1 = "";
+        fCategory2 = "";
+        fCategory3 = "";
+        fCategory4 = "";
+        fCategory5 = "";
+        fCategory6 = "";
+        fCategory7 = "";
+        fCategory8 = "";
+        fStatus1 = "";
+        fStatus2 = "";
+        fStatus3 = "";
     }
 
     private void callNetworkList(Call<List<Task>> apiCall){
