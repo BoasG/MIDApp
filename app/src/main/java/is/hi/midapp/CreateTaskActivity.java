@@ -2,7 +2,9 @@ package is.hi.midapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,14 +16,22 @@ import android.widget.Toast;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import is.hi.midapp.Persistance.Entities.Task;
 import is.hi.midapp.Persistance.Entities.TaskCategory;
 import is.hi.midapp.Persistance.Entities.TaskStatus;
+import is.hi.midapp.networking.NetworkCallback;
+import is.hi.midapp.networking.NetworkManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.http.Body;
 
 public class CreateTaskActivity extends AppCompatActivity {
 
     private Button mCreateTaskButton;
+    private Button mGoToMainButton;
     private TextView mTaskNameText;
     private Switch mTaskPrioritySwitch;
     private Spinner mTaskCategorySpinner;
@@ -38,6 +48,14 @@ public class CreateTaskActivity extends AppCompatActivity {
                 createTask();
             }
         });
+        mGoToMainButton = (Button) findViewById(R.id.back_main);
+        mGoToMainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToMain();
+            }
+        });
+
         mTaskNameText = (TextView) findViewById(R.id.task_name_plainText);
         mTaskPrioritySwitch = (Switch) findViewById(R.id.task_priority_switch);
         mTaskCategorySpinner = (Spinner) findViewById(R.id.task_category_spinner);
@@ -53,6 +71,9 @@ public class CreateTaskActivity extends AppCompatActivity {
                 (TaskCategory) mTaskCategorySpinner.getSelectedItem(), TaskStatus.NOT_STARTED);
 
         //TODO: Finish implementation
+        NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
+        Call<Task> apiCall = networkCallback.addTask(task);
+        callNetwork(apiCall);
         toastTask(task);
     }
 
@@ -66,5 +87,28 @@ public class CreateTaskActivity extends AppCompatActivity {
         Toast.makeText(CreateTaskActivity.this, task.getCategory().toString(),
                 Toast.LENGTH_SHORT).show();
 
+    }
+
+    private void callNetwork(Call<Task> apiCall){
+        apiCall.enqueue(new Callback<Task>() {
+            @Override
+            public void onResponse(Call<Task> apicall, Response<Task> response) {
+                /// Once we get response, it can be success or failure
+                if (response.isSuccessful()) {
+                    /// If successful
+                    Task listOfTasks = response.body();
+                } else{ Log.d("", "No success but no failure ");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Task> apicall, Throwable t) {
+                Log.e("", "Failed to get tasks: ");
+            }
+        });
+    }
+    private void goToMain() {
+        Intent i = new Intent(CreateTaskActivity.this, MainActivity.class);
+        startActivity(i);
     }
 }

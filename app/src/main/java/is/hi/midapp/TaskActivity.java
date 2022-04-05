@@ -3,22 +3,21 @@ package is.hi.midapp;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SearchEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import is.hi.midapp.Persistance.Entities.Task;
@@ -33,14 +32,32 @@ import retrofit2.Response;
 public class TaskActivity extends AppCompatActivity {
 
     private Button mGoToCreateTaskButton;
-    private List<Task> mAllTasks;
-    List<String> allTaskNames = new ArrayList<>();
+    private Button mGoToMainButton;
+    private SearchView mSearch;
 
     // initialize variables
     TextView textView;
-    boolean[] selectedLanguage;
+    boolean[] selectedFilters;
+    String[] allFilters;
+    //TODO: Setja í fylki
+    boolean fPriority1 = false;
+    boolean fPriority2 = false;
+    String fCategory1 = "";
+    String fCategory2 = "";
+    String fCategory3 = "";
+    String fCategory4 = "";
+    String fCategory5 = "";
+    String fCategory6 = "";
+    String fCategory7 = "";
+    String fCategory8 = "";
+    String fStatus1 = "";
+    String fStatus2 = "";
+    String fStatus3 = "";
+
+    List<String> allTaskNames = new ArrayList<>();
     ArrayList<Integer> langList = new ArrayList<>();
-    String[] langArray = {"Priority", "Household chores", "Training and Competition", "Schoolwork", "Work", "Hobbies","Self Care","Family","Friends","Not Started","In progress", "Completed"};
+    //TODO: Breyta þannig að filterar noti enum strengi
+    String[] langArray = {"High Priority", "Low Priority", "Household chores", "Training and Competition", "Schoolwork", "Work", "Hobbies","Self Care","Family","Friends","Not Started","In progress", "Completed"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,42 +67,29 @@ public class TaskActivity extends AppCompatActivity {
         // assign variable
         textView = findViewById(R.id.filter);
 
-        /*NetworkManager networkManager = NetworkManager.getInstance(this);
-        networkManager.getTasks(new NetworkCallback<List<Task>>() {
-            @Override
-            public void onSuccess(List<Task> result) {
-                mAllTasks = result;
-                Log.d("", "Fyrsta task er: " + mAllTasks.get(0).getName());
-                loadTasks();
-            }
-
-            @Override
-            public void onFailure(String errorString) {
-                Log.e("", "Failed to get tasks: " + errorString);
-            }
-        });*/
         NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
         Call<List<Task>> apiCall = networkCallback.getTasks();
-        apiCall.enqueue(new Callback<List<Task>>() {
+        callNetworkList(apiCall);
+
+        // initialize selected language array
+        selectedFilters = new boolean[langArray.length];
+        allFilters = new String[langArray.length];
+        SearchView mSearch = (SearchView) findViewById(R.id.search); //Initiate a search view
+        mSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onResponse(Call<List<Task>> apicall, Response<List<Task>> response) {
-                /// Once we get response, it can be success or failure
-                if (response.isSuccessful()) {
-                    /// If successful
-                    List<Task> listOfTasks = response.body();
-                    Log.d("", "Fyrsta task er: " + listOfTasks.get(0).getName());
-                    loadTasks(listOfTasks);
-                } else{ Log.d("", "No success but no failure "); }
+            public boolean onQueryTextSubmit(String query) {
+                Call<List<Task>> apiCall = networkCallback.getTaskByName(query.toString());
+                callNetworkList(apiCall);
+                return false;
             }
 
             @Override
-            public void onFailure(Call<List<Task>> apicall, Throwable t) {
-                Log.e("", "Failed to get tasks: ");
+            public boolean onQueryTextChange(String s) {
+                return false;
             }
         });
 
-        // initialize selected language array
-        selectedLanguage = new boolean[langArray.length];
+
 
         mGoToCreateTaskButton = (Button) findViewById(R.id.new_task);
         mGoToCreateTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -94,11 +98,18 @@ public class TaskActivity extends AppCompatActivity {
                 goToCreateTask();
             }
         });
+        mGoToMainButton = (Button) findViewById(R.id.back_home);
+        mGoToMainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToMain();
+            }
+        });
 
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                resetFilters();
                 // Initialize alert dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(TaskActivity.this);
 
@@ -108,7 +119,7 @@ public class TaskActivity extends AppCompatActivity {
                 // set dialog non cancelable
                 builder.setCancelable(false);
 
-                builder.setMultiChoiceItems(langArray, selectedLanguage, new DialogInterface.OnMultiChoiceClickListener() {
+                builder.setMultiChoiceItems(langArray, selectedFilters, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i, boolean b) {
                         // check condition
@@ -143,8 +154,16 @@ public class TaskActivity extends AppCompatActivity {
                                 stringBuilder.append(", ");
                             }
                         }
-                        // set text on textView
-                        textView.setText(stringBuilder.toString());
+                        //TODO: Láta filtera virka bæði fyrir fáa og alla
+                        getFilters(selectedFilters);
+                        //TODO: Setja í fylki
+                        //Call<List<Task>> apiCall = networkCallback.getTasksWFilters(fPriority, fCategory, fStatus);
+                        Call<List<Task>> apiCall = networkCallback.findTasks(fPriority1, fPriority2,
+                                fCategory1, fCategory2, fCategory3, fCategory4,
+                                fCategory5, fCategory6, fCategory7, fCategory8,
+                                fStatus1, fStatus2, fStatus3);
+                        //Call<List<Task>> apiCall = networkCallback.findTasks(allFilters);
+                        callNetworkList(apiCall);
                     }
                 });
 
@@ -159,9 +178,9 @@ public class TaskActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // use for loop
-                        for (int j = 0; j < selectedLanguage.length; j++) {
+                        for (int j = 0; j < selectedFilters.length; j++) {
                             // remove all selection
-                            selectedLanguage[j] = false;
+                            selectedFilters[j] = false;
                             // clear language list
                             langList.clear();
                             // clear text view value
@@ -181,16 +200,111 @@ public class TaskActivity extends AppCompatActivity {
 
     }
 
-    private void loadTasks(List<Task> listOfTasks){
-        ListView listView = (ListView) findViewById(R.id.list_task);
+    private void goToMain() {
+        Intent i = new Intent(TaskActivity.this, MainActivity.class);
+        startActivity(i);
+    }
 
-        Log.d("", "loadTasks ");
+    private void loadTasks(List<Task> listOfTasks){
+        allTaskNames.clear();
+        ListView listView = (ListView) findViewById(R.id.list_task);
 
         for(int i = 0; i < listOfTasks.size(); i++){
             allTaskNames.add(listOfTasks.get(i).getName());
         }
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, allTaskNames);
-        //ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, tasks);
         listView.setAdapter(adapter);
+    }
+
+    private void getFilters(boolean[] selectedFilters){
+        //TODO: Setja í fylki
+        if(selectedFilters[0] == true){
+            //allFilters[0] = "true";
+            fPriority1 = true;
+        }
+        if(selectedFilters[1] == true){
+            //allFilters[1] = "true";
+            fPriority2 = true;
+        }
+        if(selectedFilters[2] == true){
+            //allFilters[2] = "HOUSEHOLD";
+            fCategory1 = "HOUSEHOLD";
+        }
+        if(selectedFilters[3] == true){
+            //allFilters[3] = "SPORTS";
+            fCategory2 = "SPORTS";
+        }
+        if(selectedFilters[4] == true){
+            //allFilters[4] = "SCHOOL";
+            fCategory3 = "SCHOOL";
+        }
+        if(selectedFilters[5] == true){
+            //allFilters[5] = "WORK";
+            fCategory4 = "WORK";
+        }
+        if(selectedFilters[6] == true){
+            //allFilters[6] = "HOBBIES";
+            fCategory5 = "HOBBIES";
+        }
+        if(selectedFilters[7] == true){
+            //allFilters[7] = "SELF_CARE";
+            fCategory6 = "SELF_CARE";
+        }
+        if(selectedFilters[8] == true){
+            //allFilters[8] = "FAMILY";
+            fCategory7 = "FAMILY";
+        }
+        if(selectedFilters[9] == true){
+            //allFilters[9] = "FRIENDS";
+            fCategory8 = "FRIENDS";
+        }
+        if(selectedFilters[10] == true){
+            //allFilters[10] = "NOT_STARTED";
+            fStatus1 = "NOT_STARTED";
+        }
+        if(selectedFilters[11] == true){
+            //allFilters[11] = "IN_PROGRESS";
+            fStatus2 = "IN_PROGRESS";
+        }
+        if(selectedFilters[12] == true){
+            //allFilters[12] = "COMPLETED";
+            fStatus3 = "COMPLETED";
+        }
+    }
+
+    private void resetFilters(){
+        fPriority1 = false;
+        fPriority2 = false;
+        fCategory1 = "";
+        fCategory2 = "";
+        fCategory3 = "";
+        fCategory4 = "";
+        fCategory5 = "";
+        fCategory6 = "";
+        fCategory7 = "";
+        fCategory8 = "";
+        fStatus1 = "";
+        fStatus2 = "";
+        fStatus3 = "";
+    }
+
+    private void callNetworkList(Call<List<Task>> apiCall){
+        apiCall.enqueue(new Callback<List<Task>>() {
+            @Override
+            public void onResponse(Call<List<Task>> apicall, Response<List<Task>> response) {
+                /// Once we get response, it can be success or failure
+                if (response.isSuccessful()) {
+                    /// If successful
+                    List<Task> listOfTasks = response.body();
+                    loadTasks(listOfTasks);
+                } else {
+                    Log.d("", "No success but no failure "); }
+            }
+
+            @Override
+            public void onFailure(Call<List<Task>> apicall, Throwable t) {
+                Log.e("", "Failed to get tasks: ");
+            }
+        });
     }
 }
