@@ -8,6 +8,7 @@ public class Task {
 
     public long ID;
 
+    //TODO Breyta name í unique
     //@SerializedName("name")
     private String name;
     //@SerializedName("priority")

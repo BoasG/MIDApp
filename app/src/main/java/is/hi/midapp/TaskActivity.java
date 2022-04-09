@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,6 +38,7 @@ public class TaskActivity extends AppCompatActivity {
 
     // initialize variables
     TextView textView;
+    ArrayList<TaskListView> arrayList;
     boolean[] selectedFilters;
     String[] allFilters;
     //TODO: Setja í fylki
@@ -154,7 +156,6 @@ public class TaskActivity extends AppCompatActivity {
                                 stringBuilder.append(", ");
                             }
                         }
-                        //TODO: Láta filtera virka bæði fyrir fáa og alla
                         getFilters(selectedFilters);
                         //TODO: Setja í fylki
                         //Call<List<Task>> apiCall = networkCallback.getTasksWFilters(fPriority, fCategory, fStatus);
@@ -194,7 +195,7 @@ public class TaskActivity extends AppCompatActivity {
         });
     }
 
-    private void goToCreateTask() {
+    public void goToCreateTask() {
         Intent i = new Intent(TaskActivity.this, CreateTaskActivity.class);
         startActivity(i);
 
@@ -206,14 +207,37 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void loadTasks(List<Task> listOfTasks){
-        allTaskNames.clear();
-        ListView listView = (ListView) findViewById(R.id.list_task);
+        // create a arraylist of the type NumbersView
+        final ArrayList<TaskListView> arrayList = new ArrayList<TaskListView>();
 
         for(int i = 0; i < listOfTasks.size(); i++){
-            allTaskNames.add(listOfTasks.get(i).getName());
+            String name = listOfTasks.get(i).getName();
+            String status;
+            String date;
+            if(listOfTasks.get(i).getDueDate() == null){
+                date = "";
+            } else {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                date = simpleDateFormat.format(listOfTasks.get(i).getDueDate());
+            }
+            if(listOfTasks.get(i).getDueDate() == null){
+                status = "";
+            } else {
+                status = listOfTasks.get(i).getStatus().getDisplayValue();
+            }
+
+            arrayList.add(new TaskListView(name, status, date));
         }
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, allTaskNames);
-        listView.setAdapter(adapter);
+
+        // Now create the instance of the NumebrsViewAdapter and pass
+        // the context and arrayList created above
+        TaskListViewAdapter taskListViewAdapter = new TaskListViewAdapter(this, arrayList);
+
+        // create the instance of the ListView to set the numbersViewAdapter
+        ListView numbersListView = findViewById(R.id.list_task);
+
+        // set the numbersViewAdapter for ListView
+        numbersListView.setAdapter(taskListViewAdapter);
     }
 
     private void getFilters(boolean[] selectedFilters){

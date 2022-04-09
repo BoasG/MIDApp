@@ -19,11 +19,11 @@ import retrofit2.http.Query;
 
 public interface NetworkCallback {
 
-    @GET("homeAPI")
-    Call<List<Task>> getTasks();
-
     @POST("addATaskAPI")
     Call<Task> addATask(@Body PostTask postTask);
+
+    @GET("homeAPI")
+    Call<List<Task>> getTasks();
 
     @GET("homefAPI")
     Call<List<Task>> findTasks(
