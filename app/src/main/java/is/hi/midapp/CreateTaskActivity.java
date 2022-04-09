@@ -47,6 +47,7 @@ public class CreateTaskActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 createTask();
+                goToViewTask();
             }
         });
         mGoToMainButton = (Button) findViewById(R.id.back_main);
@@ -124,5 +125,11 @@ public class CreateTaskActivity extends AppCompatActivity {
     private void goToMain() {
         Intent i = new Intent(CreateTaskActivity.this, MainActivity.class);
         startActivity(i);
+    }
+
+    private void goToViewTask() {
+        Intent i = new Intent(CreateTaskActivity.this, TaskActivity.class);
+        startActivity(i);
+
     }
 }
