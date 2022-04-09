@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 import android.util.Patterns;
 
-public class subscribe extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
     //declare attributes
     EditText editName;
     EditText Password_id;

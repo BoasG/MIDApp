@@ -6,6 +6,7 @@ import is.hi.midapp.Persistance.Entities.PostTask;
 import is.hi.midapp.Persistance.Entities.Task;
 import is.hi.midapp.Persistance.Entities.TaskCategory;
 import is.hi.midapp.Persistance.Entities.TaskStatus;
+import is.hi.midapp.Persistance.Entities.User;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
 import retrofit2.http.POST;
@@ -21,20 +22,8 @@ public interface NetworkCallback {
     @GET("homeAPI")
     Call<List<Task>> getTasks();
 
-    @POST("addTaskAPI")
-    Call<Task> addTask(@Body Task task);
-
-    @POST("addTaskNameAPI")
-    Call<Task> addTask(@Body String name);
-
-    @POST("addATask")
+    @POST("addATaskAPI")
     Call<Task> addATask(@Body PostTask postTask);
-
-    @GET("homefAPI")
-    Call<List<Task>> getTasksWFilters(
-            @Query("priority") Boolean priority,
-            @Query("category") String category,
-            @Query("status") String status);
 
     @GET("homefAPI")
     Call<List<Task>> findTasks(
@@ -55,6 +44,9 @@ public interface NetworkCallback {
     @GET("homesAPI")
     Call<List<Task>> getTaskByName(
             @Query("name") String name);
+
+    @POST("signupAPI")
+    Call<User> addATask(@Body User user);
 
 }
 

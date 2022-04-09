@@ -4,7 +4,7 @@ import android.widget.Button;
 
 import com.google.gson.annotations.SerializedName;
 
-public class subscribe {
+public class User {
 
     @SerializedName("name")
     private String editName;
@@ -18,7 +18,7 @@ public class subscribe {
     private Button Subscribe_button;
 
 
-    public subscribe(String editName, String Password_id, String Repeatpassword_id, String EmailField, Button Subscribe_button) {
+    public User(String editName, String Password_id, String Repeatpassword_id, String EmailField, Button Subscribe_button) {
         this.editName = editName;
         this.Password_id = Password_id;
         this.Repeatpassword_id = Repeatpassword_id;
