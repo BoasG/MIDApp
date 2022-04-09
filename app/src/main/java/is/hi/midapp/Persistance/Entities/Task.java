@@ -8,21 +8,21 @@ public class Task {
 
     public long ID;
 
-    @SerializedName("name")
+    //@SerializedName("name")
     private String name;
-    @SerializedName("priority")
+    //@SerializedName("priority")
     private Boolean priority;
-    @SerializedName("startDate")
+    //@SerializedName("startDate")
     private Date startDate;
-    @SerializedName("endDate")
+    //@SerializedName("endDate")
     private Date endDate;
-    @SerializedName("dueDate")
+    //@SerializedName("dueDate")
     private Date dueDate;
-    @SerializedName("category")
+    //@SerializedName("category")
     private TaskCategory category;
-    @SerializedName("status")
+    //@SerializedName("status")
     private TaskStatus status;
-    @SerializedName("motherTask")
+   //@SerializedName("motherTask")
     private Task motherTask;
 
     public Task(String name, Boolean priority, Date startDate, Date endDate, Date dueDate,

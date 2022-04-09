@@ -2,6 +2,7 @@ package is.hi.midapp.networking;
 
 import java.util.List;
 
+import is.hi.midapp.Persistance.Entities.PostTask;
 import is.hi.midapp.Persistance.Entities.Task;
 import is.hi.midapp.Persistance.Entities.TaskCategory;
 import is.hi.midapp.Persistance.Entities.TaskStatus;
@@ -22,6 +23,12 @@ public interface NetworkCallback {
 
     @POST("addTaskAPI")
     Call<Task> addTask(@Body Task task);
+
+    @POST("addTaskNameAPI")
+    Call<Task> addTask(@Body String name);
+
+    @POST("addATask")
+    Call<Task> addATask(@Body PostTask postTask);
 
     @GET("homefAPI")
     Call<List<Task>> getTasksWFilters(

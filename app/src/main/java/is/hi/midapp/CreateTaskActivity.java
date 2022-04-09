@@ -18,6 +18,7 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import is.hi.midapp.Persistance.Entities.PostTask;
 import is.hi.midapp.Persistance.Entities.Task;
 import is.hi.midapp.Persistance.Entities.TaskCategory;
 import is.hi.midapp.Persistance.Entities.TaskStatus;
@@ -67,12 +68,24 @@ public class CreateTaskActivity extends AppCompatActivity {
 
     private void createTask() {
         Task task = new Task(mTaskNameText.getText().toString(), mTaskPrioritySwitch.isChecked(),
-                null, null, new Date(mTaskDueDateCalendarView.getDate()),
+                new Date(mTaskDueDateCalendarView.getDate()), new Date(mTaskDueDateCalendarView.getDate()), new Date(mTaskDueDateCalendarView.getDate()),
                 (TaskCategory) mTaskCategorySpinner.getSelectedItem(), TaskStatus.NOT_STARTED);
-
-        //TODO: Finish implementation
+        //TODO: Laga þannig að CalanderView skili réttri dagssetningu
+        //TODO: og skili category sem réttum Enum streng
+        PostTask postTask = new PostTask(mTaskNameText.getText().toString(), String.valueOf(mTaskPrioritySwitch.isChecked()),
+                String.valueOf(new Date(mTaskDueDateCalendarView.getDate())) , String.valueOf(new Date(mTaskDueDateCalendarView.getDate())),
+                String.valueOf(new Date(mTaskDueDateCalendarView.getDate())),
+                /*String.valueOf(mTaskCategorySpinner.getSelectedItem()),*/
+                "SCHOOL", "NOT_STARTED");
+        Log.d("", postTask.getName());
+        Log.d("", postTask.getPriority());
+        Log.d("", postTask.getDueDate());
+        Log.d("", postTask.getEndDate());
+        Log.d("", postTask.getStartDate());
+        Log.d("", postTask.getCategory());
+        Log.d("", postTask.getStatus());
         NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
-        Call<Task> apiCall = networkCallback.addTask(task);
+        Call<Task> apiCall = networkCallback.addATask(postTask);
         callNetwork(apiCall);
         toastTask(task);
     }
@@ -97,8 +110,9 @@ public class CreateTaskActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     /// If successful
                     Task listOfTasks = response.body();
-                } else{ Log.d("", "No success but no failure ");
-                }
+                    String responseString = "Response Code : " + response.code() + "\nName : " + listOfTasks.getName();
+                    Log.d("", responseString);
+                } else{ Log.d("", "No success but no failure "); }
             }
 
             @Override
