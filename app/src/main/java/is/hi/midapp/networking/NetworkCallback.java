@@ -18,6 +18,11 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface NetworkCallback {
+    //TODO PUT/POST task f. change
+    //TODO kannski GET task by ID
+
+    @DELETE("deleteTaskAPI/{id}")
+    Call<Task> deleteTask(@Path("id") long id);
 
     @POST("addATaskAPI")
     Call<Task> addATask(@Body PostTask postTask);

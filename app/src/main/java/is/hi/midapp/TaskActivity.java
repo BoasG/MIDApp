@@ -20,6 +20,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.widget.Button;
+import android.widget.Toast;
 
 import is.hi.midapp.Persistance.Entities.Task;
 import is.hi.midapp.Persistance.Entities.TaskCategory;
@@ -195,6 +196,18 @@ public class TaskActivity extends AppCompatActivity {
         });
     }
 
+    public void goToNewTask(long ID){
+        Log.d("TAG", "goToNewTask: ");
+        NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
+        Call<Task> call = networkCallback.deleteTask(ID);
+        callNetworkTask(call);
+        Toast.makeText(TaskActivity.this, "Task deleted",
+                Toast.LENGTH_SHORT).show();
+
+        Call<List<Task>> apiCall = networkCallback.getTasks();
+        callNetworkList(apiCall);
+    }
+
     public void goToCreateTask() {
         Intent i = new Intent(TaskActivity.this, CreateTaskActivity.class);
         startActivity(i);
@@ -226,7 +239,7 @@ public class TaskActivity extends AppCompatActivity {
                 status = listOfTasks.get(i).getStatus().getDisplayValue();
             }
 
-            arrayList.add(new TaskListView(name, status, date));
+            arrayList.add(new TaskListView(listOfTasks.get(i).getID(),name, status, date));
         }
 
         // Now create the instance of the NumebrsViewAdapter and pass
@@ -328,6 +341,25 @@ public class TaskActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Task>> apicall, Throwable t) {
                 Log.e("", "Failed to get tasks: ");
+            }
+        });
+    }
+
+    private void callNetworkTask(Call<Task> apiCall){
+        apiCall.enqueue(new Callback<Task>() {
+            @Override
+            public void onResponse(Call<Task> apicall, Response<Task> response) {
+                /// Once we get response, it can be success or failure
+                if (response.isSuccessful()) {
+                    /// If successful
+                    Task task = response.body();
+                } else {
+                    Log.d("", "No success but no failure "); }
+            }
+
+            @Override
+            public void onFailure(Call<Task> apicall, Throwable t) {
+                Log.e("", "Failed to get task: ");
             }
         });
     }
