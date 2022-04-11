@@ -20,3 +20,4 @@ How to use it for now:
     - By choosing as manu filters as you would like, you can find tasks that apply to your selected filters
          - Attention: If no priority filters (or both) are chosen, tasks with both priority criteria will be shown
          - The same goes for the category filters and status
+8. To delete a task click on the task in the list shown in view tasks activity
