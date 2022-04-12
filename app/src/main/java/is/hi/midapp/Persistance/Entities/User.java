@@ -24,7 +24,6 @@ public class User {
         this.Repeatpassword_id = Repeatpassword_id;
         this.EmailField = EmailField;
         this.Subscribe_button = Subscribe_button;
-
     }
 
     public String getName() {
