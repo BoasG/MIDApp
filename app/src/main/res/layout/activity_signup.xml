@@ -36,14 +36,14 @@
         android:layout_marginBottom="39dp"
         android:ems="10"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/Password_id"
+        app:layout_constraintBottom_toTopOf="@+id/Password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editName"
         tools:text="Email" />
 
     <EditText
-        android:id="@+id/Password_id"
+        android:id="@+id/Password"
         android:layout_width="300dp"
         android:layout_height="49dp"
         android:layout_marginStart="34dp"
@@ -71,7 +71,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Password_id" />
+        app:layout_constraintTop_toBottomOf="@+id/Password" />
 
     <TextView
         android:id="@+id/textView"
@@ -89,7 +89,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/Repeatpassword_id"
+        android:id="@+id/Repeatpassword"
         android:layout_width="288dp"
         android:layout_height="53dp"
         android:layout_marginStart="42dp"
@@ -101,7 +101,7 @@
         app:layout_constraintBottom_toTopOf="@+id/Subscribe_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Password_id"
+        app:layout_constraintTop_toBottomOf="@+id/Password"
         tools:text="Repeat Password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName;
 public class login {
     @SerializedName("Email")
     private String Email;
-    @SerializedName("Password_id")
-    private String Password_id;
+    @SerializedName("Password")
+    private String Password;
 
-    public login(String Password_id, String EmailField) {
-        this.Password_id = Password_id;
+    public login(String Password, String EmailField) {
+        this.Password = Password;
         this.Email = Email;
     }
     public String getEmailField() {
@@ -21,11 +21,11 @@ public class login {
     }
 
     public String getPassword() {
-        return Password_id;
+        return Password;
     }
 
     public void setPassword(String Password_id) {
-        this.Password_id = Password_id;
+        this.Password = Password_id;
     }
 
 }

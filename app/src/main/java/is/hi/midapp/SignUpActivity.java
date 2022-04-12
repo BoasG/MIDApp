@@ -1,20 +1,20 @@
 package is.hi.midapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.view.View;
 import android.widget.Toast;
-import android.util.Patterns;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SignUpActivity extends AppCompatActivity {
     //declare attributes
-    EditText editName;
-    EditText Password_id;
-    EditText Repeatpassword_id;
+    EditText Name;
+    EditText Password;
+    EditText Repeatpassword;
     EditText EmailField;
     Button Subscribe_button;
 
@@ -25,9 +25,9 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         //associate attributes with Viewids
-        editName = findViewById(R.id.editName);
-        Password_id = findViewById(R.id.Password_id);
-        Repeatpassword_id = findViewById(R.id.Repeatpassword_id);
+        Name = findViewById(R.id.editName);
+        Password = findViewById(R.id.Password);
+        Repeatpassword = findViewById(R.id.Repeatpassword);
         EmailField = findViewById(R.id.EmailField);
         Subscribe_button = findViewById(R.id.Subscribe_button);
 
@@ -42,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     //check entered data for the name
     void checkDataEntered() {
-        if (isEmpty(editName)) {
+        if (isEmpty(Name)) {
             Toast t = Toast.makeText(this, "You must enter your name to register!", Toast.LENGTH_SHORT);
             t.show();
         }
