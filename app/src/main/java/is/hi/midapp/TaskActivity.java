@@ -1,11 +1,11 @@
 package is.hi.midapp;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.SearchEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -23,8 +23,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import is.hi.midapp.Persistance.Entities.Task;
-import is.hi.midapp.Persistance.Entities.TaskCategory;
-import is.hi.midapp.Persistance.Entities.TaskStatus;
 import is.hi.midapp.networking.NetworkCallback;
 import is.hi.midapp.networking.NetworkManager;
 import retrofit2.Call;
@@ -34,8 +32,21 @@ import retrofit2.Response;
 public class TaskActivity extends AppCompatActivity {
 
     private Button mGoToCreateTaskButton;
-    private Button mGoToMainButton;
+    private Button mLogOut;
     private SearchView mSearch;
+
+    // creating constant keys for shared preferences.
+    public static final String SHARED_PREFS = "shared_prefs";
+
+    // key for storing email.
+    public static final String USERNAME_KEY  = "username_key";
+
+    // key for storing password.
+    public static final String PASSWORD_KEY = "password_key";
+
+    // variable for shared preferences.
+    SharedPreferences sharedpreferences;
+    String username;
 
     // initialize variables
     TextView textView;
@@ -59,12 +70,20 @@ public class TaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
+        // initializing our shared preferences.
+        sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+
+        // getting data from shared prefs and
+        // storing it in our string variable.
+        username = sharedpreferences.getString(USERNAME_KEY, null);
+        Log.d("TAG",  username);
+
         // assign variable
         textView = findViewById(R.id.filter);
         resetFilters();
 
         NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
-        Call<List<Task>> apiCall = networkCallback.getTasks();
+        Call<List<Task>> apiCall = networkCallback.getTasksByOwner(username);
         callNetworkList(apiCall);
 
         // initialize selected language array
@@ -92,11 +111,26 @@ public class TaskActivity extends AppCompatActivity {
                 goToCreateTask();
             }
         });
-        mGoToMainButton = (Button) findViewById(R.id.back_home);
-        mGoToMainButton.setOnClickListener(new View.OnClickListener() {
+        mLogOut = (Button) findViewById(R.id.log_out);
+        mLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToMain();
+                // calling method to edit values in shared prefs.
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                // below line will clear
+                // the data in shared prefs.
+                editor.clear();
+
+                // below line will apply empty
+                // data to shared prefs.
+                editor.apply();
+
+                // starting mainactivity after
+                // clearing values in shared preferences.
+                Intent i = new Intent(TaskActivity.this, LoginActivity.class);
+                startActivity(i);
+                finish();
             }
         });
 
@@ -154,7 +188,7 @@ public class TaskActivity extends AppCompatActivity {
                         Call<List<Task>> apiCall = networkCallback.findTasks(fPriority1, fPriority2,
                                 fCategory1, fCategory2, fCategory3, fCategory4,
                                 fCategory5, fCategory6, fCategory7, fCategory8,
-                                fStatus1, fStatus2, fStatus3);
+                                fStatus1, fStatus2, fStatus3, username);
                         //Call<List<Task>> apiCall = networkCallback.findTasks(allFilters);
                         callNetworkList(apiCall);
                     }
@@ -188,6 +222,7 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     public void goToNewTask(long ID){
+        Log.d("TAG",  username);
         Log.d("TAG", "goToNewTask: ");
         NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
         Call<Task> call = networkCallback.deleteTask(ID);

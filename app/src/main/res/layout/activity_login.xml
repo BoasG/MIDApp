@@ -11,19 +11,19 @@
 
 
     <EditText
-        android:id="@+id/Email"
+        android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="20dp"
         android:layout_marginBottom="20dp"
         android:ems="10"
-        android:hint="Email"
+        android:hint="Username"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:padding="10dp" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/pw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"

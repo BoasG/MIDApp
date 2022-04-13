@@ -86,14 +86,14 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/back_main"
+                android:id="@+id/back_view"
                 android:layout_width="2dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="99dp"
                 android:layout_marginRight="300dp"
                 android:layout_weight="1"
-                android:text="Back to main" />
+                android:text="Back" />
 
             <Button
                 android:id="@+id/create_task_button"

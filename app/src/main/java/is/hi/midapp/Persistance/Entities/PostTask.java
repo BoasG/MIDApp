@@ -11,8 +11,11 @@ public class PostTask {
         private String dueDate;
         private String category;
         private String status;
+        private String owner;
 
-    public PostTask(String name, String priority, String startDate, String endDate, String dueDate, String category, String status) {
+
+    public PostTask(String name, String priority, String startDate, String endDate,
+                    String dueDate, String category, String status, String owner) {
         this.name = name;
         this.priority = priority;
         this.startDate = startDate;
@@ -20,6 +23,7 @@ public class PostTask {
         this.dueDate = dueDate;
         this.category = category;
         this.status = status;
+        this.owner = owner;
     }
 
     public long getID() {
@@ -84,5 +88,13 @@ public class PostTask {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

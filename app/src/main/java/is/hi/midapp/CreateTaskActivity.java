@@ -2,7 +2,9 @@ package is.hi.midapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,8 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
-import java.util.List;
 
 import is.hi.midapp.Persistance.Entities.PostTask;
 import is.hi.midapp.Persistance.Entities.Task;
@@ -27,21 +27,42 @@ import is.hi.midapp.networking.NetworkManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Body;
 
 public class CreateTaskActivity extends AppCompatActivity {
 
     private Button mCreateTaskButton;
-    private Button mGoToMainButton;
+    private Button mBack;
     private TextView mTaskNameText;
     private Switch mTaskPrioritySwitch;
     private Spinner mTaskCategorySpinner;
     private CalendarView mTaskDueDateCalendarView;
 
+    // creating constant keys for shared preferences.
+    public static final String SHARED_PREFS = "shared_prefs";
+
+    // key for storing email.
+    public static final String USERNAME_KEY  = "username_key";
+
+    // key for storing password.
+    public static final String PASSWORD_KEY = "password_key";
+
+    // variable for shared preferences.
+    SharedPreferences sharedpreferences;
+    String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
+
+        // initializing our shared preferences.
+        sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+
+        // getting data from shared prefs and
+        // storing it in our string variable.
+        username = sharedpreferences.getString(USERNAME_KEY, null);
+        Log.d("TAG",  username);
+
         mCreateTaskButton = (Button) findViewById(R.id.create_task_button);
         mCreateTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,11 +71,11 @@ public class CreateTaskActivity extends AppCompatActivity {
                 goToViewTask();
             }
         });
-        mGoToMainButton = (Button) findViewById(R.id.back_main);
-        mGoToMainButton.setOnClickListener(new View.OnClickListener() {
+        mBack = (Button) findViewById(R.id.back_view);
+        mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToMain();
+                goToViewTask();
             }
         });
 
@@ -77,7 +98,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                 String.valueOf(new Date(mTaskDueDateCalendarView.getDate())) , String.valueOf(new Date(mTaskDueDateCalendarView.getDate())),
                 String.valueOf(new Date(mTaskDueDateCalendarView.getDate())),
                 /*String.valueOf(mTaskCategorySpinner.getSelectedItem()),*/
-                "SCHOOL", "NOT_STARTED");
+                "SCHOOL", "NOT_STARTED", username);
         Log.d("", postTask.getName());
         Log.d("", postTask.getPriority());
         Log.d("", postTask.getDueDate());
@@ -85,6 +106,7 @@ public class CreateTaskActivity extends AppCompatActivity {
         Log.d("", postTask.getStartDate());
         Log.d("", postTask.getCategory());
         Log.d("", postTask.getStatus());
+        Log.d("", postTask.getOwner());
         NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
         Call<Task> apiCall = networkCallback.addATask(postTask);
         callNetwork(apiCall);
@@ -121,10 +143,6 @@ public class CreateTaskActivity extends AppCompatActivity {
                 Log.e("", "Failed to get tasks: ");
             }
         });
-    }
-    private void goToMain() {
-        Intent i = new Intent(CreateTaskActivity.this, MainActivity.class);
-        startActivity(i);
     }
 
     private void goToViewTask() {

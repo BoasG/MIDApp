@@ -30,6 +30,10 @@ public interface NetworkCallback {
     @GET("homeAPI")
     Call<List<Task>> getTasks();
 
+    //TODO Athuga með token til að gera get request öruggari
+    @GET("homeOAPI")
+    Call<List<Task>> getTasksByOwner(@Query("user") String username);
+
     @GET("homefAPI")
     Call<List<Task>> findTasks(
             @Query("priority1") Boolean priority1,
@@ -44,7 +48,8 @@ public interface NetworkCallback {
             @Query("category8") String category8,
             @Query("status1") String status1,
             @Query("status2") String status2,
-            @Query("status3") String status3);
+            @Query("status3") String status3,
+            @Query("user") String username);
 
     @GET("homesAPI")
     Call<List<Task>> getTaskByName(
@@ -52,6 +57,9 @@ public interface NetworkCallback {
 
     @POST("signupAPI")
     Call<User> signup(@Body User user);
+
+    @POST("loginAPI")
+    Call<User> login(@Body User user);
 
 }
 
