@@ -7,101 +7,79 @@
     android:layout_height="match_parent"
     tools:context=".SignUpActivity">
 
-    <EditText
-        android:id="@+id/editName"
-        android:layout_width="304dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="76dp"
-        android:layout_marginBottom="38dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        android:text="Full Name"
-        app:layout_constrainedHeight="true"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintBottom_toTopOf="@+id/EmailField"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="-49dp"
+        tools:layout_editor_absoluteY="-237dp">
 
-    <EditText
-        android:id="@+id/EmailField"
-        android:layout_width="298dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="79dp"
-        android:layout_marginBottom="39dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/Password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editName"
-        tools:text="Email" />
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="76dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:hint="Username"
+            app:layout_constrainedHeight="true"
+            app:layout_constrainedWidth="true" />
 
-    <EditText
-        android:id="@+id/Password"
-        android:layout_width="300dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="11dp"
-        android:layout_marginEnd="77dp"
-        android:layout_marginBottom="142dp"
-        android:ems="10"
-        android:inputType="numberPassword"
-        app:layout_constraintBottom_toTopOf="@+id/Subscribe_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EmailField"
-        tools:text="Password" />
+        <EditText
+            android:id="@+id/EmailField"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="75dp"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:hint="Email" />
 
-    <Button
-        android:id="@+id/Subscribe_button"
-        android:layout_width="250dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="62dp"
-        android:layout_marginTop="109dp"
-        android:layout_marginEnd="125dp"
-        android:layout_marginBottom="228dp"
-        android:text="Subscribe"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Password" />
+        <EditText
+            android:id="@+id/Password"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="75dp"
+            android:ems="10"
+            android:inputType="numberPassword"
+            android:hint="Password" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="156dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="137dp"
-        android:layout_marginTop="23dp"
-        android:layout_marginEnd="118dp"
-        android:layout_marginBottom="32dp"
-        android:text="Join us today!"
-        app:layout_constraintBottom_toTopOf="@+id/editName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <EditText
+            android:id="@+id/Repeatpassword"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="75dp"
+            android:ems="10"
+            android:inputType="numberPassword"
+            android:hint="Repeat Password" />
 
-    <EditText
-        android:id="@+id/Repeatpassword"
-        android:layout_width="288dp"
-        android:layout_height="53dp"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="45dp"
-        android:layout_marginEnd="82dp"
-        android:layout_marginBottom="154dp"
-        android:ems="10"
-        android:inputType="numberPassword"
-        app:layout_constraintBottom_toTopOf="@+id/Subscribe_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Password"
-        tools:text="Repeat Password" />
+        <Button
+            android:id="@+id/Subscribe_button"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="75dp"
+            android:text="Sign Up" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="75dp"
+            android:text="Join us today!"
+            android:textAlignment="center" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

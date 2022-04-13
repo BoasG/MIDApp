@@ -2,6 +2,7 @@ package is.hi.midapp;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -10,13 +11,27 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
+import is.hi.midapp.Persistance.Entities.Task;
+import is.hi.midapp.Persistance.Entities.User;
+import is.hi.midapp.networking.NetworkCallback;
+import is.hi.midapp.networking.NetworkManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+//TODO check id password matches repeatpassword
+//TODO send a notification if user exists
+//TODO send a successful notification and go to login page if succeded
+
 public class SignUpActivity extends AppCompatActivity {
     //declare attributes
-    EditText Name;
-    EditText Password;
-    EditText Repeatpassword;
-    EditText EmailField;
-    Button Subscribe_button;
+    EditText mName;
+    EditText mPassword;
+    EditText mRepeatPassword;
+    EditText mEmail;
+    Button mSubscribe_button;
 
 
     @Override
@@ -25,16 +40,17 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         //associate attributes with Viewids
-        Name = findViewById(R.id.editName);
-        Password = findViewById(R.id.Password);
-        Repeatpassword = findViewById(R.id.Repeatpassword);
-        EmailField = findViewById(R.id.EmailField);
-        Subscribe_button = findViewById(R.id.Subscribe_button);
+        mName = findViewById(R.id.editName);
+        mPassword = findViewById(R.id.Password);
+        mRepeatPassword = findViewById(R.id.Repeatpassword);
+        mEmail = findViewById(R.id.EmailField);
+        mSubscribe_button = findViewById(R.id.Subscribe_button);
 
-        Subscribe_button.setOnClickListener(new View.OnClickListener() {
+        mSubscribe_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 checkDataEntered();
+
             }
         });
 
@@ -42,13 +58,26 @@ public class SignUpActivity extends AppCompatActivity {
 
     //check entered data for the name
     void checkDataEntered() {
-        if (isEmpty(Name)) {
+        if (isEmpty(mName)) {
             Toast t = Toast.makeText(this, "You must enter your name to register!", Toast.LENGTH_SHORT);
             t.show();
         }
 
-        if (isEmail(EmailField) == false) {
-            EmailField.setError("Enter valid email!");
+        if (isEmail(mEmail) == false) {
+            mEmail.setError("Enter valid email!");
+        }
+
+        if(isEmail(mEmail) && isEmpty(mName) == false){
+            User user = new User(mName.getText().toString(), mPassword.getText().toString(), mEmail.getText().toString());
+            Log.d("TAG", mName.getText().toString());
+            Log.d("TAG", mPassword.getText().toString());
+            Log.d("TAG", mEmail.getText().toString());
+            Log.d("TAG", user.getUsername());
+            Log.d("TAG", user.getEmail());
+            Log.d("TAG", user.getPassword());
+            NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
+            Call<User> apiCall = networkCallback.signup(user);
+            callNetworkUser(apiCall);
         }
     }
 
@@ -62,6 +91,25 @@ public class SignUpActivity extends AppCompatActivity {
     boolean isEmail(EditText text) {
         CharSequence email = text.getText().toString();
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
+    }
+
+    private void callNetworkUser(Call<User> apiCall){
+        apiCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> apicall, Response<User> response) {
+                /// Once we get response, it can be success or failure
+                if (response.isSuccessful()) {
+                    /// If successful
+                    User user = response.body();
+                } else {
+                    Log.d("", "No success but no failure "); }
+            }
+
+            @Override
+            public void onFailure(Call<User> apicall, Throwable t) {
+                Log.e("", "Failed to get user: ");
+            }
+        });
     }
 
 

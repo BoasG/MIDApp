@@ -51,7 +51,7 @@ public interface NetworkCallback {
             @Query("name") String name);
 
     @POST("signupAPI")
-    Call<User> addATask(@Body User user);
+    Call<User> signup(@Body User user);
 
 }
 

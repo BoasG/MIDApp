@@ -11,6 +11,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mGoToCreateTaskButton;
     private Button mGoToViewTaskButton;
+    private Button mGoToSignUpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +32,25 @@ public class MainActivity extends AppCompatActivity {
                 goToViewTask();
             }
         });
+        mGoToSignUpButton = (Button) findViewById(R.id.go_to_sign_up_button);
+        mGoToSignUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToSignUp();
+            }
+        });
     }
 
     private void goToCreateTask() {
         Intent i = new Intent(MainActivity.this, CreateTaskActivity.class);
         startActivity(i);
-
     }
-
     private void goToViewTask() {
         Intent i = new Intent(MainActivity.this, TaskActivity.class);
         startActivity(i);
-
+    }
+    private void goToSignUp() {
+        Intent i = new Intent(MainActivity.this, SignUpActivity.class);
+        startActivity(i);
     }
 }

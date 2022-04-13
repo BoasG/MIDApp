@@ -43,21 +43,13 @@ public class TaskActivity extends AppCompatActivity {
     boolean[] selectedFilters;
     String[] allFilters;
     //TODO: Setja í fylki
-    boolean fPriority1 = false;
-    boolean fPriority2 = false;
-    String fCategory1 = "";
-    String fCategory2 = "";
-    String fCategory3 = "";
-    String fCategory4 = "";
-    String fCategory5 = "";
-    String fCategory6 = "";
-    String fCategory7 = "";
-    String fCategory8 = "";
-    String fStatus1 = "";
-    String fStatus2 = "";
-    String fStatus3 = "";
+    boolean fPriority1, fPriority2;
+    String fCategory1, fCategory2, fCategory3,
+            fCategory4, fCategory5, fCategory6,
+            fCategory7, fCategory8,
+            fStatus1, fStatus2, fStatus3;
 
-    List<String> allTaskNames = new ArrayList<>();
+    //List<String> allTaskNames = new ArrayList<>();
     ArrayList<Integer> langList = new ArrayList<>();
     //TODO: Breyta þannig að filterar noti enum strengi
     String[] langArray = {"High Priority", "Low Priority", "Household chores", "Training and Competition", "Schoolwork", "Work", "Hobbies","Self Care","Family","Friends","Not Started","In progress", "Completed"};
@@ -69,6 +61,7 @@ public class TaskActivity extends AppCompatActivity {
 
         // assign variable
         textView = findViewById(R.id.filter);
+        resetFilters();
 
         NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
         Call<List<Task>> apiCall = networkCallback.getTasks();
@@ -91,8 +84,6 @@ public class TaskActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
 
         mGoToCreateTaskButton = (Button) findViewById(R.id.new_task);
         mGoToCreateTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -201,11 +192,11 @@ public class TaskActivity extends AppCompatActivity {
         NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
         Call<Task> call = networkCallback.deleteTask(ID);
         callNetworkTask(call);
+        //Fa uppfaerdan lista
         Toast.makeText(TaskActivity.this, "Task deleted",
                 Toast.LENGTH_SHORT).show();
-
-        Call<List<Task>> apiCall = networkCallback.getTasks();
-        callNetworkList(apiCall);
+        Intent i = new Intent(TaskActivity.this, TaskActivity.class);
+        startActivity(i);
     }
 
     public void goToCreateTask() {
