@@ -59,16 +59,23 @@ public class SignUpActivity extends AppCompatActivity {
 
     //check entered data for the name
     void checkDataEntered() {
-        if (isEmpty(mName)) {
+        if (isEmpty(mName) && isEmpty(mPassword)) {
+            Toast t = Toast.makeText(this, "You must enter a username and password to register!", Toast.LENGTH_SHORT);
+            t.show();
+        }
+        else if (isEmpty(mName)) {
             Toast t = Toast.makeText(this, "You must enter a username to register!", Toast.LENGTH_SHORT);
             t.show();
         }
-
+        else if (isEmpty(mPassword)) {
+            Toast t = Toast.makeText(this, "You must enter a password to register!", Toast.LENGTH_SHORT);
+            t.show();
+        }
         if (isEmail(mEmail) == false) {
             mEmail.setError("Enter valid email!");
         }
 
-        if(isEmail(mEmail) && isEmpty(mName) == false){
+        if(isEmail(mEmail) && isEmpty(mName) == false && isEmpty(mPassword)){
             User user = new User(mName.getText().toString(), mPassword.getText().toString(), mEmail.getText().toString());
             Log.d("TAG", mName.getText().toString());
             Log.d("TAG", mPassword.getText().toString());
