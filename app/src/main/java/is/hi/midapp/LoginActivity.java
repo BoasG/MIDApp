@@ -117,22 +117,28 @@ public class LoginActivity extends AppCompatActivity {
                     User user = response.body();
                     String responseString = "Response Code : " + response.code() + "\nName : " + user.getUsername() + "\nPassword : " + user.getPassword();
                     Log.d("", responseString);
-                    //TODO something so Android knows who is logged in
-                    //Gera eh þannig að Android viti hver er loggaður inn
-                    //goToViewTask();
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    if(user.getUsername() != null) {
 
-                    // below two lines will put values for
-                    // email and password in shared preferences.
-                    editor.putString(USERNAME_KEY, mUsername.getText().toString());
-                    editor.putString(PASSWORD_KEY, mPassword.getText().toString());
+                        //Gera eh þannig að Android viti hver er loggaður inn
+                        //goToViewTask();
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
 
-                    // to save our data with key and value.
-                    editor.apply();
+                        // below two lines will put values for
+                        // email and password in shared preferences.
+                        editor.putString(USERNAME_KEY, mUsername.getText().toString());
+                        editor.putString(PASSWORD_KEY, mPassword.getText().toString());
 
-                    // starting new activity.
-                    Intent i = new Intent(LoginActivity.this, TaskActivity.class);
-                    startActivity(i);
+                        // to save our data with key and value.
+                        editor.apply();
+
+                        // starting new activity.
+                        Intent i = new Intent(LoginActivity.this, TaskActivity.class);
+                        startActivity(i);
+                    } else {
+                        //TODO implementa fjölda löglegra tilrauna
+                        Toast.makeText(LoginActivity.this, "Wrong username or password",
+                                Toast.LENGTH_SHORT).show();
+                    }
 
                 } else{ Log.d("", "No success but no failure "); }
             }

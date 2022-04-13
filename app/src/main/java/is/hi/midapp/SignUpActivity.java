@@ -1,5 +1,6 @@
 package is.hi.midapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -59,7 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
     //check entered data for the name
     void checkDataEntered() {
         if (isEmpty(mName)) {
-            Toast t = Toast.makeText(this, "You must enter your name to register!", Toast.LENGTH_SHORT);
+            Toast t = Toast.makeText(this, "You must enter a username to register!", Toast.LENGTH_SHORT);
             t.show();
         }
 
@@ -101,6 +102,17 @@ public class SignUpActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     /// If successful
                     User user = response.body();
+                    String responseString = "Response Code : " + response.code() + "\nName : " + user.getUsername() + "\nPassword : " + user.getPassword();
+                    Log.d("", responseString);
+                    if(user.getUsername() != null){
+                        Toast.makeText(SignUpActivity.this, "User created, please log in",
+                                Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
+                        startActivity(i);
+                    } else{
+                        Toast.makeText(SignUpActivity.this, "Username taken",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Log.d("", "No success but no failure "); }
             }
