@@ -20,6 +20,27 @@ public enum TaskCategory {
         return displayValue;
     }
 
+    public String getEnumValue() {
+        if (displayValue == "Household chores"){
+            return "HOUSEHOLD";
+        } else if (displayValue == "Training and Competition"){
+            return "SPORTS";
+        } else if (displayValue == "Schoolwork"){
+            return "SCHOOL";
+        } else if (displayValue == "Work"){
+            return "WORK";
+        } else if (displayValue == "Hobbies"){
+            return "HOBBIES";
+        } else if (displayValue == "Self Care"){
+            return "SELF_CARE";
+        } else if (displayValue == "Family"){
+            return "FAMILY";
+        } else if (displayValue == "Friends") {
+            return "FRIENDS";
+        } else return "";
+
+    }
+
     @Override public String toString() {
         return displayValue;
     }

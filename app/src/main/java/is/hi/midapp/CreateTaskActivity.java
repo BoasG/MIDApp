@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import is.hi.midapp.Persistance.Entities.PostTask;
 import is.hi.midapp.Persistance.Entities.Task;
@@ -49,6 +51,7 @@ public class CreateTaskActivity extends AppCompatActivity {
     // variable for shared preferences.
     SharedPreferences sharedpreferences;
     String username;
+    long eventOccursOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +88,20 @@ public class CreateTaskActivity extends AppCompatActivity {
         mTaskCategorySpinner.setAdapter(new ArrayAdapter<TaskCategory>
                 (this, android.R.layout.simple_spinner_item, TaskCategory.values()));
         mTaskDueDateCalendarView = (CalendarView) findViewById(R.id.task_due_date_calendarView);
+
+        mTaskDueDateCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            //show the selected date as a toast
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
+                Log.d("TAG", "ONSELECTEDDAYCHANGE");
+                Toast.makeText(getApplicationContext(), day + "/" + month + "/" + year, Toast.LENGTH_LONG).show();
+                Log.d("TAG", day + "/" + month + "/" + year);
+                Calendar c = Calendar.getInstance();
+                c.set(year, month, day);
+                eventOccursOn = c.getTimeInMillis(); //this is what you want to use later
+            }
+        });
+
     }
 
 
@@ -92,13 +109,13 @@ public class CreateTaskActivity extends AppCompatActivity {
         Task task = new Task(mTaskNameText.getText().toString(), mTaskPrioritySwitch.isChecked(),
                 new Date(mTaskDueDateCalendarView.getDate()), new Date(mTaskDueDateCalendarView.getDate()), new Date(mTaskDueDateCalendarView.getDate()),
                 (TaskCategory) mTaskCategorySpinner.getSelectedItem(), TaskStatus.NOT_STARTED);
-        //TODO: Laga þannig að CalanderView skili réttri dagssetningu
-        //TODO: og skili category sem réttum Enum streng
         PostTask postTask = new PostTask(mTaskNameText.getText().toString(), String.valueOf(mTaskPrioritySwitch.isChecked()),
                 String.valueOf(new Date(mTaskDueDateCalendarView.getDate())) , String.valueOf(new Date(mTaskDueDateCalendarView.getDate())),
-                String.valueOf(new Date(mTaskDueDateCalendarView.getDate())),
+                /*String.valueOf(new Date(mTaskDueDateCalendarView.getDate())),*/
+                String.valueOf(new Date(eventOccursOn)),
+                ((TaskCategory) ((TaskCategory) mTaskCategorySpinner.getSelectedItem())).getEnumValue(),
                 /*String.valueOf(mTaskCategorySpinner.getSelectedItem()),*/
-                "SCHOOL", "NOT_STARTED", username);
+                 "NOT_STARTED", username);
         Log.d("", postTask.getName());
         Log.d("", postTask.getPriority());
         Log.d("", postTask.getDueDate());
