@@ -50,7 +50,7 @@ public class KanbanViewAdapter extends ArrayAdapter<KanbanView>{
                 long id = currentNumberPosition.getmID();
                 Log.d("TAG", "name: " + name);
                 Log.d("TAG", "id: " + id);
-                if (context instanceof TaskActivity) {
+                if (context instanceof KanbanActivity) {
                     ((KanbanActivity)context).goToNewTask(id);
                 }
                 // Do what you want here...
