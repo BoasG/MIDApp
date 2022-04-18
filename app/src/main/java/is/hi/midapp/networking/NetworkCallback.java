@@ -27,6 +27,9 @@ public interface NetworkCallback {
     @POST("addATaskAPI")
     Call<Task> addATask(@Body PostTask postTask);
 
+    @GET("userAPI")
+    Call<User> getUserByName(@Query("username") String username);
+
     @GET("homeAPI")
     Call<List<Task>> getTasks();
 
@@ -57,6 +60,9 @@ public interface NetworkCallback {
 
     @POST("signupAPI")
     Call<User> signup(@Body User user);
+
+    @POST("changeUserAPI")
+    Call<User> changeUser(@Body User user);
 
     @POST("loginAPI")
     Call<User> login(@Body User user);

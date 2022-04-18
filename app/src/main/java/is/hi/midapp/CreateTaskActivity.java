@@ -45,9 +45,6 @@ public class CreateTaskActivity extends AppCompatActivity {
     // key for storing email.
     public static final String USERNAME_KEY  = "username_key";
 
-    // key for storing password.
-    public static final String PASSWORD_KEY = "password_key";
-
     // variable for shared preferences.
     SharedPreferences sharedpreferences;
     String username;

@@ -9,6 +9,7 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private long ID;
 
 
     public User(String username, String password, String email) {
@@ -40,4 +41,8 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public long getID() {return  ID; }
+
+    public void setID(long ID) {this.ID = ID;}
 }

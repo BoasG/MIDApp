@@ -33,7 +33,7 @@ public class TaskActivity extends AppCompatActivity {
 
     private Button mGoToCreateTaskButton;
     private Button mLogOut;
-    private SearchView mSearch;
+    private Button mGoToManageAccount;
 
     // creating constant keys for shared preferences.
     public static final String SHARED_PREFS = "shared_prefs";
@@ -41,8 +41,6 @@ public class TaskActivity extends AppCompatActivity {
     // key for storing email.
     public static final String USERNAME_KEY  = "username_key";
 
-    // key for storing password.
-    public static final String PASSWORD_KEY = "password_key";
 
     // variable for shared preferences.
     SharedPreferences sharedpreferences;
@@ -109,6 +107,13 @@ public class TaskActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 goToCreateTask();
+            }
+        });
+        mGoToManageAccount = (Button) findViewById(R.id.manage_account);
+        mGoToManageAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGoToManageAccount();
             }
         });
         mLogOut = (Button) findViewById(R.id.log_out);
@@ -240,11 +245,12 @@ public class TaskActivity extends AppCompatActivity {
 
     }
 
-    private void goToMain() {
-        Intent i = new Intent(TaskActivity.this, MainActivity.class);
+    public void mGoToManageAccount() {
+        Intent i = new Intent(TaskActivity.this, ManageUserActivity.class);
         startActivity(i);
     }
 
+    //TODO implement loadTasks for kanban
     private void loadTasks(List<Task> listOfTasks){
         // create a arraylist of the type NumbersView
         final ArrayList<TaskListView> arrayList = new ArrayList<TaskListView>();

@@ -1,53 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TaskActivity"
-    tools:visibility="visible"
-    android:gravity="center"
-    android:orientation="vertical">
+    tools:context=".TaskActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        tools:visibility="visible"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <SearchView
-            android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:minWidth="300dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        </SearchView>
+                <SearchView
+                    android:id="@+id/search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:minWidth="300dp">
 
-        <TextView
-            android:id="@+id/filter"
+                </SearchView>
+
+                <TextView
+                    android:id="@+id/filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:drawable/editbox_background"
+                    android:drawablePadding="16dp"
+                    android:hint="@string/filter"
+                    android:padding="12dp"
+                    android:textColorHint="#757575"
+                    app:drawableRightCompat="@android:drawable/arrow_down_float" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/new_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/new_task" />
+
+        <ListView
+            android:id="@+id/list_task"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:drawable/editbox_background"
-            android:drawablePadding="16dp"
-            android:hint="@string/filter"
-            android:padding="12dp"
-            android:textColorHint="#757575"
-            app:drawableRightCompat="@android:drawable/arrow_down_float" />
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+
+        </ListView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/manage_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Manage account" />
+
+            <Button
+                android:id="@+id/log_out"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Log Out" />
+        </LinearLayout>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/new_task"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/new_task" />
-
-    <Button
-        android:id="@+id/log_out"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Log Out" />
-
-    <ListView
-        android:id="@+id/list_task"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>

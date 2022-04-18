@@ -1,6 +1,8 @@
 package is.hi.midapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,8 +14,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.List;
-
 import is.hi.midapp.Persistance.Entities.Task;
 import is.hi.midapp.Persistance.Entities.User;
 import is.hi.midapp.networking.NetworkCallback;
@@ -22,11 +22,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//TODO check id password matches repeatpassword
-//TODO send a notification if user exists
-//TODO send a successful notification and go to login page if succeded
-
-public class SignUpActivity extends AppCompatActivity {
+//TODO implement autofill
+public class ManageUserActivity extends AppCompatActivity {
     //declare attributes
     EditText mName;
     EditText mPassword;
@@ -34,11 +31,33 @@ public class SignUpActivity extends AppCompatActivity {
     EditText mEmail;
     Button mSubscribe_button;
 
+    // creating constant keys for shared preferences.
+    public static final String SHARED_PREFS = "shared_prefs";
+
+    // key for storing username.
+    public static final String USERNAME_KEY  = "username_key";
+
+    // key for storing password.
+    public static final String PASSWORD_KEY = "password_key";
+
+
+    // variable for shared preferences.
+    SharedPreferences sharedpreferences;
+    String username;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        setContentView(R.layout.activity_manage_user);
+
+        // initializing our shared preferences.
+        sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+
+        // getting data from shared prefs and
+        // storing it in our string variable.
+        username = sharedpreferences.getString(USERNAME_KEY, null);
+
 
         //associate attributes with Viewids
         mName = findViewById(R.id.editName);
@@ -46,6 +65,9 @@ public class SignUpActivity extends AppCompatActivity {
         mRepeatPassword = findViewById(R.id.Repeatpassword);
         mEmail = findViewById(R.id.EmailField);
         mSubscribe_button = findViewById(R.id.Subscribe_button);
+
+        getUserByUsername();
+
 
         mSubscribe_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,25 +81,17 @@ public class SignUpActivity extends AppCompatActivity {
 
     //check entered data for the name
     void checkDataEntered() {
-        if (isEmpty(mName) && isEmpty(mPassword)) {
-            Toast t = Toast.makeText(this, "You must enter a username and password to register!", Toast.LENGTH_SHORT);
-            t.show();
-        }
-        else if (isEmpty(mName)) {
-            Toast t = Toast.makeText(this, "You must enter a username to register!", Toast.LENGTH_SHORT);
-            t.show();
-        }
-        else if (isEmpty(mPassword)) {
+        if (isEmpty(mPassword)) {
             Toast t = Toast.makeText(this, "You must enter a password to register!", Toast.LENGTH_SHORT);
             t.show();
         }
         if (isEmail(mEmail) == false) {
             mEmail.setError("Enter valid email!");
         }
-        if(mPassword != mRepeatPassword){
+        if((mPassword.getText().toString()).equals(mRepeatPassword.getText().toString()) == false){
             Toast t = Toast.makeText(this, "Passwords do not match!", Toast.LENGTH_SHORT);
             t.show();
-        } else if(isEmail(mEmail) && isEmpty(mName) == false && isEmpty(mPassword) == false){
+        } else if(isEmail(mEmail) && isEmpty(mPassword) == false){
             User user = new User(mName.getText().toString(), mPassword.getText().toString(), mEmail.getText().toString());
             Log.d("TAG", mName.getText().toString());
             Log.d("TAG", mPassword.getText().toString());
@@ -85,9 +99,25 @@ public class SignUpActivity extends AppCompatActivity {
             Log.d("TAG", user.getUsername());
             Log.d("TAG", user.getEmail());
             Log.d("TAG", user.getPassword());
+
             NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
-            Call<User> apiCall = networkCallback.signup(user);
-            callNetworkUser(apiCall);
+            //PUT á Userinn
+            Call<User> apiCall = networkCallback.changeUser(user);
+            callNetwork(apiCall);
+            Toast t = Toast.makeText(this, "Successfully changed user", Toast.LENGTH_SHORT);
+            t.show();
+
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+
+            // below two lines will put values for
+            // email and password in shared preferences.
+            //editor.putString(USERNAME_KEY, mUsername.getText().toString());
+            editor.putString(PASSWORD_KEY, mPassword.getText().toString());
+
+            // to save our data with key and value.
+            editor.apply();
+
+            goToViewTask();
         }
     }
 
@@ -103,7 +133,22 @@ public class SignUpActivity extends AppCompatActivity {
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
-    private void callNetworkUser(Call<User> apiCall){
+    private void getUserByUsername(){
+        NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
+        Call<User> apiCall = networkCallback.getUserByName(username);
+        callNetwork(apiCall);
+        Log.d("TAG", "getUserByUsername: ");
+    }
+
+    private void autofill(User user){
+        Log.d("TAG", "autofill: ");
+        mName.setText(user.getUsername());
+        mPassword.setText(user.getPassword());
+        mRepeatPassword.setText(user.getPassword());
+        mEmail.setText(user.getEmail());
+    }
+
+    private void callNetwork(Call<User> apiCall){
         apiCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> apicall, Response<User> response) {
@@ -111,27 +156,28 @@ public class SignUpActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     /// If successful
                     User user = response.body();
-                    String responseString = "Response Code : " + response.code() + "\nName : " + user.getUsername() + "\nPassword : " + user.getPassword();
-                    Log.d("", responseString);
-                    if(user.getUsername() != null){
-                        Toast.makeText(SignUpActivity.this, "User created, please log in",
-                                Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
-                        startActivity(i);
-                    } else{
-                        Toast.makeText(SignUpActivity.this, "Username taken",
-                                Toast.LENGTH_SHORT).show();
+                    if(user.getUsername() == null){
+                        String responseString = "Response Code : " + response.code() + "no user with that username";
+                        Log.d("", responseString);
+                    } else {
+                        //Komin með Userinn með name, pw og email
+                        String responseString = "Response Code : " + response.code() + "\nUsername : " + user.getPassword();
+                        Log.d("", responseString);
+                        autofill(user);
                     }
-                } else {
-                    Log.d("", "No success but no failure "); }
+                } else{ Log.d("", "No success but no failure "); }
             }
 
             @Override
             public void onFailure(Call<User> apicall, Throwable t) {
-                Log.e("", "Failed to get user: ");
+                Log.e("", "Failed to get tasks: ");
             }
         });
     }
 
+    private void goToViewTask() {
+        Intent i = new Intent(ManageUserActivity.this, TaskActivity.class);
+        startActivity(i);
 
+    }
 }
