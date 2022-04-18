@@ -164,4 +164,9 @@ public class CreateTaskActivity extends AppCompatActivity {
         startActivity(i);
 
     }
+
+    private void goToKanban() {
+        Intent i = new Intent(CreateTaskActivity.this, KanbanActivity.class);
+        startActivity(i);
+    }
 }

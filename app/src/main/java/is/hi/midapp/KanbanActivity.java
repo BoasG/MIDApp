@@ -2,13 +2,17 @@ package is.hi.midapp;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,23 +22,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import android.content.Intent;
-import android.widget.Button;
-import android.widget.Toast;
-
 import is.hi.midapp.Persistance.Entities.Task;
+import is.hi.midapp.Persistance.Entities.TaskCategory;
+import is.hi.midapp.Persistance.Entities.TaskStatus;
 import is.hi.midapp.networking.NetworkCallback;
 import is.hi.midapp.networking.NetworkManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TaskActivity extends AppCompatActivity {
+public class KanbanActivity extends AppCompatActivity {
 
     private Button mGoToCreateTaskButton;
     private Button mLogOut;
     private Button mGoToManageAccount;
-    private Button mGoToKanbanViewButton;
+    private Button mGoToViewTaskButton;
 
     // creating constant keys for shared preferences.
     public static final String SHARED_PREFS = "shared_prefs";
@@ -67,7 +69,7 @@ public class TaskActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task);
+        setContentView(R.layout.activity_kanban);
 
         // initializing our shared preferences.
         sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
@@ -103,18 +105,19 @@ public class TaskActivity extends AppCompatActivity {
             }
         });
 
+        mGoToViewTaskButton = (Button) findViewById(R.id.go_to_view_task_button);
+        mGoToViewTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToViewTask();
+            }
+        });
+
         mGoToCreateTaskButton = (Button) findViewById(R.id.new_task);
         mGoToCreateTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToCreateTask();
-            }
-        });
-        mGoToKanbanViewButton = (Button) findViewById(R.id.kanban);
-        mGoToKanbanViewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToKanban();
             }
         });
         mGoToManageAccount = (Button) findViewById(R.id.manage_account);
@@ -141,7 +144,7 @@ public class TaskActivity extends AppCompatActivity {
 
                 // starting mainactivity after
                 // clearing values in shared preferences.
-                Intent i = new Intent(TaskActivity.this, LoginActivity.class);
+                Intent i = new Intent(KanbanActivity.this, LoginActivity.class);
                 startActivity(i);
                 finish();
             }
@@ -152,7 +155,7 @@ public class TaskActivity extends AppCompatActivity {
             public void onClick(View view) {
                 resetFilters();
                 // Initialize alert dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(TaskActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(KanbanActivity.this);
 
                 // set title
                 builder.setTitle("Select Filters");
@@ -241,60 +244,82 @@ public class TaskActivity extends AppCompatActivity {
         Call<Task> call = networkCallback.deleteTask(ID);
         callNetworkTask(call);
         //Fa uppfaerdan lista
-        Toast.makeText(TaskActivity.this, "Task deleted",
+        Toast.makeText(KanbanActivity.this, "Task deleted",
                 Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(TaskActivity.this, TaskActivity.class);
+        Intent i = new Intent(KanbanActivity.this, KanbanActivity.class);
         startActivity(i);
     }
 
     public void goToCreateTask() {
-        Intent i = new Intent(TaskActivity.this, CreateTaskActivity.class);
+        Intent i = new Intent(KanbanActivity.this, CreateTaskActivity.class);
+        startActivity(i);
+
+    }
+
+    public void goToViewTask() {
+        Intent i = new Intent(KanbanActivity.this, TaskActivity.class);
         startActivity(i);
 
     }
 
     public void mGoToManageAccount() {
-        Intent i = new Intent(TaskActivity.this, ManageUserActivity.class);
+        Intent i = new Intent(KanbanActivity.this, ManageUserActivity.class);
         startActivity(i);
     }
 
-    private void goToKanban() {
-        Intent i = new Intent(TaskActivity.this, KanbanActivity.class);
-        startActivity(i);
-    }
-
+    //TODO implement loadTasks for kanban
     private void loadTasks(List<Task> listOfTasks){
-        // create a arraylist of the type NumbersView
-        final ArrayList<TaskListView> arrayList = new ArrayList<TaskListView>();
+        // create a arraylist of the type KanbanView
+        //Status not started
+        final ArrayList<KanbanView> arrayList1 = new ArrayList<KanbanView>();
+        //Status in progress
+        final ArrayList<KanbanView> arrayList2 = new ArrayList<KanbanView>();
+        //Status done
+        final ArrayList<KanbanView> arrayList3 = new ArrayList<KanbanView>();
 
         for(int i = 0; i < listOfTasks.size(); i++){
             String name = listOfTasks.get(i).getName();
             String status;
-            String date;
             if(listOfTasks.get(i).getDueDate() == null){
-                date = "";
-            } else {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                date = simpleDateFormat.format(listOfTasks.get(i).getDueDate());
-            }
-            if(listOfTasks.get(i).getStatus() == null){
                 status = "";
             } else {
                 status = listOfTasks.get(i).getStatus().getDisplayValue();
             }
+            //listOfTasks.get(i).getStatus() skilar Taskstatus
+            if(listOfTasks.get(i).getStatus().equals(TaskStatus.NOT_STARTED)){
+                arrayList1.add(new KanbanView(listOfTasks.get(i).getID(),name));
+            } else if(listOfTasks.get(i).getStatus().equals(TaskStatus.IN_PROGRESS)){
+                arrayList2.add(new KanbanView(listOfTasks.get(i).getID(),name));
+            } else {
+                arrayList3.add(new KanbanView(listOfTasks.get(i).getID(),name));
+            }
 
-            arrayList.add(new TaskListView(listOfTasks.get(i).getID(),name, status, date));
         }
 
-        // Now create the instance of the NumebrsViewAdapter and pass
-        // the context and arrayList created above
-        TaskListViewAdapter taskListViewAdapter = new TaskListViewAdapter(this, arrayList);
+
+
+        KanbanViewAdapter kanbanViewAdapter1 = new KanbanViewAdapter(this, arrayList1);
+        KanbanViewAdapter kanbanViewAdapter2 = new KanbanViewAdapter(this, arrayList2);
+        KanbanViewAdapter kanbanViewAdapter3 = new KanbanViewAdapter(this, arrayList3);
+        // create the instance of the ListView to set the numbersViewAdapter
+        ListView kanbanView1 = findViewById(R.id.list_task_ns);
+        //kanbanView1.setBackgroundColor(Color.RED);
 
         // create the instance of the ListView to set the numbersViewAdapter
-        ListView numbersListView = findViewById(R.id.list_task);
+        ListView kanbanView2 = findViewById(R.id.list_task_ip);
+        //kanbanView2.setBackgroundColor(Color.YELLOW);
+
+        // create the instance of the ListView to set the numbersViewAdapter
+        ListView kanbanView3 = findViewById(R.id.list_task_d);
+        //kanbanView3.setBackgroundColor(Color.GREEN);
 
         // set the numbersViewAdapter for ListView
-        numbersListView.setAdapter(taskListViewAdapter);
+        kanbanView1.setAdapter(kanbanViewAdapter1);
+        // set the numbersViewAdapter for ListView
+        kanbanView2.setAdapter(kanbanViewAdapter2);
+        // set the numbersViewAdapter for ListView
+        kanbanView3.setAdapter(kanbanViewAdapter3);
+
     }
 
     private void getFilters(boolean[] selectedFilters){

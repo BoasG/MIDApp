@@ -56,7 +56,8 @@ public interface NetworkCallback {
 
     @GET("homesAPI")
     Call<List<Task>> getTaskByName(
-            @Query("name") String name);
+            @Query("name") String name,
+            @Query("user") String username);
 
     @POST("signupAPI")
     Call<User> signup(@Body User user);

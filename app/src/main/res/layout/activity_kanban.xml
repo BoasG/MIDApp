@@ -13,30 +13,30 @@
         android:gravity="center"
         android:orientation="vertical">
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <SearchView
+                android:id="@+id/search"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:minWidth="300dp">
+
+            </SearchView>
+
+            <TextView
+                android:id="@+id/filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <SearchView
-                    android:id="@+id/search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:minWidth="300dp">
-
-                </SearchView>
-
-                <TextView
-                    android:id="@+id/filter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background"
-                    android:drawablePadding="16dp"
-                    android:hint="@string/filter"
-                    android:padding="12dp"
-                    android:textColorHint="#757575"
-                    app:drawableRightCompat="@android:drawable/arrow_down_float" />
-            </LinearLayout>
+                android:background="@android:drawable/editbox_background"
+                android:drawablePadding="16dp"
+                android:hint="@string/filter"
+                android:padding="12dp"
+                android:textColorHint="#757575"
+                app:drawableRightCompat="@android:drawable/arrow_down_float" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,21 +44,24 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/kanban"
+                android:id="@+id/go_to_view_task_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="Kanban View" />
+                android:layout_weight="1"
+                android:text="List View" />
 
             <Button
                 android:id="@+id/new_task"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="5dp"
+                android:layout_weight="3"
                 android:text="@string/new_task" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,33 +72,55 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Task name" />
+                android:text="Not Started" />
 
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Status" />
+                android:text="In Progress" />
 
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Due date" />
+                android:text="Done" />
 
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/list_task"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="2"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp">
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
-        </ListView>
+            <ListView
+                android:id="@+id/list_task_ns"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#F44336"
+                android:cacheColorHint="@color/red" />
+
+            <ListView
+                android:id="@+id/list_task_ip"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFEB3B" />
+
+            <ListView
+                android:id="@+id/list_task_d"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ic_launcher_background">
+
+            </ListView>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -121,4 +146,5 @@
                 android:text="Log Out" />
         </LinearLayout>
     </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
