@@ -14,9 +14,9 @@ How to use it for now:
 4. If you created an account successfully you will go to the login page and have to login
 5. When you are logged in you should see all your tasks in a list
 6. To create a new task press the create a new task button
-7. You can create tasks with different names, due dates, priorities and categories. (Bug, category is always school and duedate is always today)
+7. You can create tasks with different names, due dates, priorities and categories.
 8. If you dont want to create a task you can press the back button to go back to the list
-9. When you have created a task successfully you should automatically return to view task page.
+9. When you have created a task successfully you should automatically return to view task page where you see a list of your tasks.
 11. You can use the search function to search for a task by name and when you press enter the tasks with that name should appear
 12. You can also use the filter to filter out tasks.
     - There are three types of filters in the drop down
@@ -26,4 +26,6 @@ How to use it for now:
     - By choosing as manu filters as you would like, you can find tasks that apply to your selected filters
          - Attention: If no priority filters (or both) are chosen, tasks with both priority criteria will be shown
          - The same goes for the category filters and status
+
+14. You can also change view and see your tasks on a Kanban table.
 13. To delete a task click on the task in the list shown in view tasks activity
