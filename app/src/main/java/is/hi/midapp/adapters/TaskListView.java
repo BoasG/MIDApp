@@ -1,4 +1,4 @@
-package is.hi.midapp;
+package is.hi.midapp.adapters;
 
 public class TaskListView {
 

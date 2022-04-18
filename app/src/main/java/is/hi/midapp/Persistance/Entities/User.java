@@ -1,9 +1,5 @@
 package is.hi.midapp.Persistance.Entities;
 
-import android.widget.Button;
-
-import com.google.gson.annotations.SerializedName;
-
 public class User {
 
     private String username;

@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="List View" />
+                android:text="@string/list_view" />
 
             <Button
                 android:id="@+id/new_task"
@@ -72,21 +72,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Not Started" />
+                android:text="@string/not_started" />
 
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="In Progress" />
+                android:text="@string/in_progress" />
 
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Done" />
+                android:text="@string/finished" />
 
         </LinearLayout>
 
@@ -117,7 +117,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/ic_launcher_background">
+                android:background="@color/green">
 
             </ListView>
         </LinearLayout>
@@ -132,9 +132,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
-                android:text="Manage account" />
+                android:text="@string/manage_account" />
 
             <Button
                 android:id="@+id/log_out"
@@ -143,7 +143,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="3"
-                android:text="Log Out" />
+                android:text="@string/log_out" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

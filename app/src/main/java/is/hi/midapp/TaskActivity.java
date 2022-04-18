@@ -23,6 +23,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import is.hi.midapp.Persistance.Entities.Task;
+import is.hi.midapp.adapters.TaskListView;
+import is.hi.midapp.adapters.TaskListViewAdapter;
 import is.hi.midapp.networking.NetworkCallback;
 import is.hi.midapp.networking.NetworkManager;
 import retrofit2.Call;

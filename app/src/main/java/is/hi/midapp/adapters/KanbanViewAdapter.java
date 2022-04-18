@@ -1,26 +1,27 @@
-package is.hi.midapp;
+package is.hi.midapp.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 
-import is.hi.midapp.Persistance.Entities.Task;
+import is.hi.midapp.KanbanActivity;
+import is.hi.midapp.R;
 
-public class TaskListViewAdapter extends ArrayAdapter<TaskListView> {
+public class KanbanViewAdapter extends ArrayAdapter<KanbanView>{
 
     private Context context;
     // invoke the suitable constructor of the ArrayAdapter class
-    public TaskListViewAdapter(@NonNull Context context, ArrayList<TaskListView> arrayList) {
+    public KanbanViewAdapter(@NonNull Context context, ArrayList<KanbanView> arrayList) {
         // pass the context and arrayList for the super
         // constructor of the ArrayAdapter class
         super(context, 0, arrayList);
@@ -35,7 +36,7 @@ public class TaskListViewAdapter extends ArrayAdapter<TaskListView> {
 
         // of the recyclable view is null then inflate the custom layout for the same
         if (currentItemView == null) {
-            currentItemView = LayoutInflater.from(getContext()).inflate(R.layout.task_list, parent, false);
+            currentItemView = LayoutInflater.from(getContext()).inflate(R.layout.kanban_list, parent, false);
         }
 
         LinearLayout linearLayout = currentItemView.findViewById(R.id.linLay);
@@ -47,32 +48,24 @@ public class TaskListViewAdapter extends ArrayAdapter<TaskListView> {
                 int position = (Integer) view.getTag();
                 // Access the row position here to get the correct data item
                 // get the position of the view from the ArrayAdapter
-                TaskListView currentNumberPosition = getItem(position);
+                KanbanView currentNumberPosition = getItem(position);
                 String name = currentNumberPosition.getmTaskName();
                 long id = currentNumberPosition.getmID();
                 Log.d("TAG", "name: " + name);
                 Log.d("TAG", "id: " + id);
-                if (context instanceof TaskActivity) {
-                    ((TaskActivity)context).goToNewTask(id);
+                if (context instanceof KanbanActivity) {
+                    ((KanbanActivity)context).goToNewTask(id);
                 }
                 // Do what you want here...
             }
         });
 
         // get the position of the view from the ArrayAdapter
-        TaskListView currentNumberPosition = getItem(position);
+        KanbanView currentNumberPosition = getItem(position);
 
         // then according to the position of the view assign the desired TextView 1 for the same
         TextView textView1 = currentItemView.findViewById(R.id.textView1);
         textView1.setText(currentNumberPosition.getmTaskName());
-
-        // then according to the position of the view assign the desired TextView 2 for the same
-        TextView textView2 = currentItemView.findViewById(R.id.textView2);
-        textView2.setText(currentNumberPosition.getmTaskStatus());
-
-        // then according to the position of the view assign the desired TextView 3 for the same
-        TextView textView3 = currentItemView.findViewById(R.id.textView3);
-        textView3.setText(currentNumberPosition.getmTaskDueDate());
 
         // then return the recyclable view
         return currentItemView;

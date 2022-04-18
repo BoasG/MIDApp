@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="Kanban View" />
+                android:text="@string/kanban_view" />
 
             <Button
                 android:id="@+id/new_task"
@@ -69,28 +69,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Task name" />
+                android:text="@string/task_name_label" />
 
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Status" />
+                android:text="@string/status" />
 
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Due date" />
+                android:text="@string/due_date_label" />
 
         </LinearLayout>
 
         <ListView
             android:id="@+id/list_task"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="2"
             android:paddingStart="5dp"
             android:paddingEnd="5dp">
@@ -107,9 +107,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
-                android:text="Manage account" />
+                android:text="@string/manage_account" />
 
             <Button
                 android:id="@+id/log_out"
@@ -118,7 +118,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="3"
-                android:text="Log Out" />
+                android:text="@string/log_out" />
         </LinearLayout>
     </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

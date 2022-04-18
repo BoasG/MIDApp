@@ -21,21 +21,21 @@ public enum TaskCategory {
     }
 
     public String getEnumValue() {
-        if (displayValue == "Household chores"){
+        if (displayValue.equals("Household chores")){
             return "HOUSEHOLD";
-        } else if (displayValue == "Training and Competition"){
+        } else if (displayValue.equals("Training and Competition")){
             return "SPORTS";
-        } else if (displayValue == "Schoolwork"){
+        } else if (displayValue.equals("Schoolwork")){
             return "SCHOOL";
-        } else if (displayValue == "Work"){
+        } else if (displayValue.equals("Work")){
             return "WORK";
-        } else if (displayValue == "Hobbies"){
+        } else if (displayValue.equals("Hobbies")){
             return "HOBBIES";
-        } else if (displayValue == "Self Care"){
+        } else if (displayValue.equals("Self Care")){
             return "SELF_CARE";
-        } else if (displayValue == "Family"){
+        } else if (displayValue.equals("Family")){
             return "FAMILY";
-        } else if (displayValue == "Friends") {
+        } else if (displayValue.equals("Friends")) {
             return "FRIENDS";
         } else return "";
 

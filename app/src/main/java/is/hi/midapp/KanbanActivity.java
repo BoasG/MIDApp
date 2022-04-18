@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,14 +16,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import is.hi.midapp.Persistance.Entities.Task;
-import is.hi.midapp.Persistance.Entities.TaskCategory;
 import is.hi.midapp.Persistance.Entities.TaskStatus;
+import is.hi.midapp.adapters.KanbanView;
+import is.hi.midapp.adapters.KanbanViewAdapter;
+import is.hi.midapp.adapters.TaskListView;
 import is.hi.midapp.networking.NetworkCallback;
 import is.hi.midapp.networking.NetworkManager;
 import retrofit2.Call;
@@ -51,7 +51,6 @@ public class KanbanActivity extends AppCompatActivity {
 
     // initialize variables
     TextView textView;
-    ArrayList<TaskListView> arrayList;
     boolean[] selectedFilters;
     String[] allFilters;
     //TODO: Setja í fylki
@@ -94,7 +93,7 @@ public class KanbanActivity extends AppCompatActivity {
         mSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Call<List<Task>> apiCall = networkCallback.getTaskByName(query.toString(), username);
+                Call<List<Task>> apiCall = networkCallback.getTaskByName(query, username);
                 callNetworkList(apiCall);
                 return false;
             }
@@ -279,13 +278,6 @@ public class KanbanActivity extends AppCompatActivity {
 
         for(int i = 0; i < listOfTasks.size(); i++){
             String name = listOfTasks.get(i).getName();
-            String status;
-            if(listOfTasks.get(i).getDueDate() == null){
-                status = "";
-            } else {
-                status = listOfTasks.get(i).getStatus().getDisplayValue();
-            }
-            //listOfTasks.get(i).getStatus() skilar Taskstatus
             if(listOfTasks.get(i).getStatus().equals(TaskStatus.NOT_STARTED)){
                 arrayList1.add(new KanbanView(listOfTasks.get(i).getID(),name));
             } else if(listOfTasks.get(i).getStatus().equals(TaskStatus.IN_PROGRESS)){
@@ -324,55 +316,55 @@ public class KanbanActivity extends AppCompatActivity {
 
     private void getFilters(boolean[] selectedFilters){
         //TODO: Setja í fylki
-        if(selectedFilters[0] == true){
+        if(selectedFilters[0]){
             //allFilters[0] = "true";
             fPriority1 = true;
         }
-        if(selectedFilters[1] == true){
+        if(selectedFilters[1]){
             //allFilters[1] = "true";
             fPriority2 = true;
         }
-        if(selectedFilters[2] == true){
+        if(selectedFilters[2]){
             //allFilters[2] = "HOUSEHOLD";
             fCategory1 = "HOUSEHOLD";
         }
-        if(selectedFilters[3] == true){
+        if(selectedFilters[3]){
             //allFilters[3] = "SPORTS";
             fCategory2 = "SPORTS";
         }
-        if(selectedFilters[4] == true){
+        if(selectedFilters[4]){
             //allFilters[4] = "SCHOOL";
             fCategory3 = "SCHOOL";
         }
-        if(selectedFilters[5] == true){
+        if(selectedFilters[5]){
             //allFilters[5] = "WORK";
             fCategory4 = "WORK";
         }
-        if(selectedFilters[6] == true){
+        if(selectedFilters[6]){
             //allFilters[6] = "HOBBIES";
             fCategory5 = "HOBBIES";
         }
-        if(selectedFilters[7] == true){
+        if(selectedFilters[7]){
             //allFilters[7] = "SELF_CARE";
             fCategory6 = "SELF_CARE";
         }
-        if(selectedFilters[8] == true){
+        if(selectedFilters[8]){
             //allFilters[8] = "FAMILY";
             fCategory7 = "FAMILY";
         }
-        if(selectedFilters[9] == true){
+        if(selectedFilters[9]){
             //allFilters[9] = "FRIENDS";
             fCategory8 = "FRIENDS";
         }
-        if(selectedFilters[10] == true){
+        if(selectedFilters[10]){
             //allFilters[10] = "NOT_STARTED";
             fStatus1 = "NOT_STARTED";
         }
-        if(selectedFilters[11] == true){
+        if(selectedFilters[11]){
             //allFilters[11] = "IN_PROGRESS";
             fStatus2 = "IN_PROGRESS";
         }
-        if(selectedFilters[12] == true){
+        if(selectedFilters[12]){
             //allFilters[12] = "COMPLETED";
             fStatus3 = "COMPLETED";
         }

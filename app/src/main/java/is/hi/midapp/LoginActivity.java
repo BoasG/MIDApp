@@ -87,9 +87,8 @@ public class LoginActivity extends AppCompatActivity {
             Toast t = Toast.makeText(this, "You must enter a username!", Toast.LENGTH_SHORT);
             t.show();
         }
-        if(isEmpty(mUsername) == false && isEmpty(mPassword) == false){
+        if(!isEmpty(mUsername) && !isEmpty(mPassword)){
             User user = new User(mUsername.getText().toString(), mPassword.getText().toString(), null);
-            //Senda fyrirspurn á bakendann um að logga inn
             NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
             Call<User> apiCall = networkCallback.login(user);
             callNetwork(apiCall);

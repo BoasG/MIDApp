@@ -4,22 +4,16 @@ import java.util.List;
 
 import is.hi.midapp.Persistance.Entities.PostTask;
 import is.hi.midapp.Persistance.Entities.Task;
-import is.hi.midapp.Persistance.Entities.TaskCategory;
-import is.hi.midapp.Persistance.Entities.TaskStatus;
 import is.hi.midapp.Persistance.Entities.User;
 import retrofit2.http.GET;
-import retrofit2.http.PUT;
 import retrofit2.http.POST;
 import retrofit2.http.DELETE;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Header;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface NetworkCallback {
-    //TODO PUT/POST task f. change
-    //TODO kannski GET task by ID
 
     @DELETE("deleteTaskAPI/{id}")
     Call<Task> deleteTask(@Path("id") long id);

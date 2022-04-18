@@ -6,14 +6,17 @@
     <string name="task_priority_label">High Priority:</string>
     <string name="due_date_label">Due Date:</string>
     <string name="category_label">Task Category:</string>
+    <string name="back">Go back</string>
 
     <string name="password">Password</string>
+    <string name="email">Email</string>
     <string name="username">Username</string>
     <string name="login_button">Log In</string>
     <string name="signup_button">Sign Up</string>
     <string name="filter">Filter</string>
     <string name="new_task">New Task</string>
-
+    <string name="repeat_pw">Repeat Password</string>
+    <string name="join_us">Join us today!</string>
 
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
@@ -24,6 +27,24 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+    <string name="list_view">List View</string>
+    <string name="manage_account">Manage Account</string>
+    <string name="log_out">Log Out</string>
+
+    <string name="not_started">Not Started</string>
+    <string name="in_progress">In Progress</string>
+    <string name="finished">Finished</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="change_cred">Change your credentials</string>
+    <string name="kanban_view">Kanban view</string>
+    <string name="status">Status:</string>
+
+    <string-array name="status_array">
+        <item>Not Started</item>
+        <item>In Progress</item>
+        <item>Finished</item>
+    </string-array>
 
     <string-array name="task_category_array">
         <item>Family</item>

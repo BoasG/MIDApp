@@ -24,7 +24,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:minHeight="48dp"
-            android:hint="Username"
+            android:hint="@string/username"
             app:layout_constrainedHeight="true"
             app:layout_constrainedWidth="true" />
 
@@ -37,7 +37,7 @@
             android:layout_marginEnd="75dp"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:hint="Email" />
+            android:hint="@string/email" />
 
         <EditText
             android:id="@+id/Password"
@@ -48,7 +48,7 @@
             android:layout_marginEnd="75dp"
             android:ems="10"
             android:inputType="numberPassword"
-            android:hint="Password" />
+            android:hint="@string/password" />
 
         <EditText
             android:id="@+id/Repeatpassword"
@@ -59,7 +59,7 @@
             android:layout_marginEnd="75dp"
             android:ems="10"
             android:inputType="numberPassword"
-            android:hint="Repeat Password" />
+            android:hint="@string/repeat_pw" />
 
         <Button
             android:id="@+id/Subscribe_button"
@@ -68,7 +68,7 @@
             android:layout_marginStart="35dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="75dp"
-            android:text="Save changes" />
+            android:text="@string/save_changes" />
 
         <TextView
             android:id="@+id/textView"
@@ -77,7 +77,7 @@
             android:layout_marginStart="35dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="75dp"
-            android:text="Change your credentials"
+            android:text="@string/change_cred"
             android:textAlignment="center" />
 
     </LinearLayout>

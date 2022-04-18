@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import is.hi.midapp.Persistance.Entities.PostTask;
@@ -90,9 +89,7 @@ public class CreateTaskActivity extends AppCompatActivity {
             //show the selected date as a toast
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
-                Log.d("TAG", "ONSELECTEDDAYCHANGE");
                 Toast.makeText(getApplicationContext(), day + "/" + month + "/" + year, Toast.LENGTH_LONG).show();
-                Log.d("TAG", day + "/" + month + "/" + year);
                 Calendar c = Calendar.getInstance();
                 c.set(year, month, day);
                 eventOccursOn = c.getTimeInMillis(); //this is what you want to use later
@@ -108,19 +105,9 @@ public class CreateTaskActivity extends AppCompatActivity {
                 (TaskCategory) mTaskCategorySpinner.getSelectedItem(), TaskStatus.NOT_STARTED);
         PostTask postTask = new PostTask(mTaskNameText.getText().toString(), String.valueOf(mTaskPrioritySwitch.isChecked()),
                 String.valueOf(new Date(mTaskDueDateCalendarView.getDate())) , String.valueOf(new Date(mTaskDueDateCalendarView.getDate())),
-                /*String.valueOf(new Date(mTaskDueDateCalendarView.getDate())),*/
                 String.valueOf(new Date(eventOccursOn)),
                 ((TaskCategory) ((TaskCategory) mTaskCategorySpinner.getSelectedItem())).getEnumValue(),
-                /*String.valueOf(mTaskCategorySpinner.getSelectedItem()),*/
                  "NOT_STARTED", username);
-        Log.d("", postTask.getName());
-        Log.d("", postTask.getPriority());
-        Log.d("", postTask.getDueDate());
-        Log.d("", postTask.getEndDate());
-        Log.d("", postTask.getStartDate());
-        Log.d("", postTask.getCategory());
-        Log.d("", postTask.getStatus());
-        Log.d("", postTask.getOwner());
         NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
         Call<Task> apiCall = networkCallback.addATask(postTask);
         callNetwork(apiCall);
@@ -147,8 +134,10 @@ public class CreateTaskActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     /// If successful
                     Task listOfTasks = response.body();
-                    String responseString = "Response Code : " + response.code() + "\nName : " + listOfTasks.getName();
-                    Log.d("", responseString);
+                    if(listOfTasks != null){
+                        String responseString = "Response Code : " + response.code() + "\nName : " + listOfTasks.getName();
+                        Log.d("", responseString);
+                    }
                 } else{ Log.d("", "No success but no failure "); }
             }
 
@@ -165,8 +154,4 @@ public class CreateTaskActivity extends AppCompatActivity {
 
     }
 
-    private void goToKanban() {
-        Intent i = new Intent(CreateTaskActivity.this, KanbanActivity.class);
-        startActivity(i);
-    }
 }
