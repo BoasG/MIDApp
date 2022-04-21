@@ -47,8 +47,8 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="75dp"
             android:ems="10"
-            android:inputType="numberPassword"
-            android:hint="@string/password" />
+            android:hint="@string/password"
+            android:inputType="textPassword" />
 
         <EditText
             android:id="@+id/Repeatpassword"
@@ -58,8 +58,8 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="75dp"
             android:ems="10"
-            android:inputType="numberPassword"
-            android:hint="@string/repeat_pw"/>
+            android:hint="@string/repeat_pw"
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/Subscribe_button"

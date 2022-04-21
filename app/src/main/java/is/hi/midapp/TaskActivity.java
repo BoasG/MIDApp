@@ -413,23 +413,4 @@ public class TaskActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void callNetworkTask(Call<Task> apiCall){
-        apiCall.enqueue(new Callback<Task>() {
-            @Override
-            public void onResponse(Call<Task> apicall, Response<Task> response) {
-                /// Once we get response, it can be success or failure
-                if (response.isSuccessful()) {
-                    /// If successful
-                    Task task = response.body();
-                } else {
-                    Log.d("", "No success but no failure "); }
-            }
-
-            @Override
-            public void onFailure(Call<Task> apicall, Throwable t) {
-                Log.e("", "Failed to get task: ");
-            }
-        });
-    }
 }

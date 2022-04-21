@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 import is.hi.midapp.KanbanActivity;
+import is.hi.midapp.Persistance.Entities.Task;
 import is.hi.midapp.R;
 
 public class KanbanViewAdapter extends ArrayAdapter<KanbanView>{
@@ -51,10 +52,11 @@ public class KanbanViewAdapter extends ArrayAdapter<KanbanView>{
                 KanbanView currentNumberPosition = getItem(position);
                 String name = currentNumberPosition.getmTaskName();
                 long id = currentNumberPosition.getmID();
+                Task task = currentNumberPosition.getmTask();
                 Log.d("TAG", "name: " + name);
                 Log.d("TAG", "id: " + id);
                 if (context instanceof KanbanActivity) {
-                    ((KanbanActivity)context).goToNewTask(id);
+                    ((KanbanActivity)context).goToNewTask(task);
                 }
                 // Do what you want here...
             }
