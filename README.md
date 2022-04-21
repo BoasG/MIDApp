@@ -28,5 +28,7 @@ How to use it for now:
          - The same goes for the category filters and status
 
 14. You can also change view and see your tasks on a Kanban table.
-13. To delete a task click on the task in the list shown in view tasks activity or kanban table (FOR NOW, FIX WHEN BÓAS FINISHES CHANGE TASK)
-14. You can manage your profile and change your password and email but not your username.
+13. To change your task press on a chosen task from either view.
+14. You will go to another page where your task is autofilled and you can change it or delete it (you might have to scroll down a little)
+15. When you have changed or deleted your task you will be taken to the view tasks page again.
+16. You can manage your profile and change your password and email but not your username.
