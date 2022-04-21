@@ -8,6 +8,11 @@
     <string name="category_label">Task Category:</string>
     <string name="back">Go back</string>
 
+    <string name="task_status_label">Task Status:</string>
+    <string name="cancel_change_task_button">Cancel</string>
+    <string name="change_task_button">Save Changes</string>
+    <string name="delete_task_button">Delete Task</string>
+
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="username">Username</string>

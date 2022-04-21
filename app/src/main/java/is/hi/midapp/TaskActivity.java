@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +24,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import is.hi.midapp.Persistance.Entities.Task;
+import is.hi.midapp.Persistance.Entities.TaskCategory;
+import is.hi.midapp.Persistance.Entities.TaskStatus;
 import is.hi.midapp.adapters.TaskListView;
 import is.hi.midapp.adapters.TaskListViewAdapter;
 import is.hi.midapp.networking.NetworkCallback;
@@ -236,17 +239,37 @@ public class TaskActivity extends AppCompatActivity {
         });
     }
 
-    public void goToNewTask(long ID){
-        Log.d("TAG",  username);
-        Log.d("TAG", "goToNewTask: ");
-        NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
-        Call<Task> call = networkCallback.deleteTask(ID);
-        callNetworkTask(call);
-        //Fa uppfaerdan lista
-        Toast.makeText(TaskActivity.this, "Task deleted",
-                Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(TaskActivity.this, TaskActivity.class);
+    public void goToNewTask(Task task){
+        Intent i = new Intent(TaskActivity.this, CreateTaskActivity.class);
+        i.putExtra("is.hi.midapp.edit_mode", true);
+        i.putExtra("is.hi.midapp.task_ID", task.getID());
+        i.putExtra("is.hi.midapp.task_name", task.getName());
+        i.putExtra("is.hi.midapp.task_priority", task.getPriority());
+        i.putExtra("is.hi.midapp.task_status", taskStatusToInt(task.getStatus()));
+        i.putExtra("is.hi.midapp.task_category", taskCategoryToInt(task.getCategory()));
+        i.putExtra("is.hi.midapp.task_due_date", task.getDueDate().getTime());
         startActivity(i);
+    }
+
+    //TODO:Find a cleaner way to do this
+    private int taskStatusToInt(TaskStatus status) {
+        if(status == TaskStatus.NOT_STARTED) return 0;
+        if(status == TaskStatus.IN_PROGRESS) return 1;
+        if(status == TaskStatus.COMPLETED) return 2;
+        return 0;
+    }
+
+    //TODO:Find a cleaner way to do this
+    private int taskCategoryToInt(TaskCategory category) {
+        if(category == TaskCategory.HOUSEHOLD) return 0;
+        if(category == TaskCategory.SPORTS) return 1;
+        if(category == TaskCategory.SCHOOL) return 2;
+        if(category == TaskCategory.WORK) return 3;
+        if(category == TaskCategory.HOBBIES) return 4;
+        if(category == TaskCategory.SELF_CARE) return 5;
+        if(category == TaskCategory.FAMILY) return 6;
+        if(category == TaskCategory.FRIENDS) return 7;
+        return 0;
     }
 
     public void goToCreateTask() {
@@ -285,7 +308,7 @@ public class TaskActivity extends AppCompatActivity {
                 status = listOfTasks.get(i).getStatus().getDisplayValue();
             }
 
-            arrayList.add(new TaskListView(listOfTasks.get(i).getID(),name, status, date));
+            arrayList.add(new TaskListView(listOfTasks.get(i).getID(),name, status, date, listOfTasks.get(i)));
         }
 
         // Now create the instance of the NumebrsViewAdapter and pass

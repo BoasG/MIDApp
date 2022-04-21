@@ -5,7 +5,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetworkManager {
 
     private static Retrofit retrofit = null;
-    private static final String BASE_URL = "http://10.0.2.2:8080";
+    //TODO: Set to "http://10.0.2.2:8080"
+    private static final String BASE_URL = "http://192.168.0.100:8080";
 
     public static Retrofit getService() {
         if (retrofit == null) {

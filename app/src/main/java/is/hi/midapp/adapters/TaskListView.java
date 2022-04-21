@@ -1,5 +1,7 @@
 package is.hi.midapp.adapters;
 
+import is.hi.midapp.Persistance.Entities.Task;
+
 public class TaskListView {
 
     // TextView 1
@@ -12,13 +14,15 @@ public class TaskListView {
     private String mTaskDueDate;
 
     private long mID;
+    private Task mTask;
 
     // create constructor to set the values for all the parameters of the each single view
-    public TaskListView(long mID,String mTaskName, String mTaskStatus, String mTaskDueDate) {
+    public TaskListView(long mID,String mTaskName, String mTaskStatus, String mTaskDueDate, Task task) {
         this.mID = mID;
         this.mTaskName = mTaskName;
         this.mTaskStatus = mTaskStatus;
         this.mTaskDueDate = mTaskDueDate;
+        this.mTask = task;
     }
 
     public long getmID() { return mID; }
@@ -34,4 +38,6 @@ public class TaskListView {
     public String getmTaskDueDate() {
         return mTaskDueDate;
     }
+
+    public Task getmTask() {return mTask; }
 }

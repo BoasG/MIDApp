@@ -74,8 +74,12 @@ public class SignUpActivity extends AppCompatActivity {
         if (isEmail(mEmail) == false) {
             mEmail.setError("Enter valid email!");
         }
-        if(mPassword != mRepeatPassword){
-            Toast t = Toast.makeText(this, "Passwords do not match!", Toast.LENGTH_SHORT);
+        if(!mPassword.getText().toString().equals(mRepeatPassword.getText().toString())){
+            //TODO: undo changes
+            String msg = mPassword.getText() + ":" + mRepeatPassword.getText();
+            Toast t = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+            t.show();
+            t = Toast.makeText(this, "Passwords do not match!", Toast.LENGTH_SHORT);
             t.show();
         } else if(isEmail(mEmail) && isEmpty(mName) == false && isEmpty(mPassword) == false){
             User user = new User(mName.getText().toString(), mPassword.getText().toString(), mEmail.getText().toString());

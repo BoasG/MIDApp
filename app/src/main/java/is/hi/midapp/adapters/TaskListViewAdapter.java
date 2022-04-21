@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
+import is.hi.midapp.Persistance.Entities.Task;
 import is.hi.midapp.R;
 import is.hi.midapp.TaskActivity;
 
@@ -49,10 +50,11 @@ public class TaskListViewAdapter extends ArrayAdapter<TaskListView> {
                 TaskListView currentNumberPosition = getItem(position);
                 String name = currentNumberPosition.getmTaskName();
                 long id = currentNumberPosition.getmID();
+                Task task = currentNumberPosition.getmTask();
                 Log.d("TAG", "name: " + name);
                 Log.d("TAG", "id: " + id);
                 if (context instanceof TaskActivity) {
-                    ((TaskActivity)context).goToNewTask(id);
+                    ((TaskActivity)context).goToNewTask(task);
                 }
                 // Do what you want here...
             }
