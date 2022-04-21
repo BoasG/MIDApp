@@ -14,4 +14,16 @@ public enum TaskStatus {
     public String getDisplayValue() {
         return displayValue;
     }
+
+    public String getEnumValue() {
+        if(displayValue.equals("Not Started")){
+            return "NOT_STARTED";
+        } else if(displayValue.equals("In progress")){
+            return "IN_PROGRESS";
+        } else if(displayValue.equals("Completed")){
+            return "COMPLETED";
+        } else {
+            return "";
+        }
+    }
 }

@@ -12,8 +12,10 @@ public class PostTask {
         private String owner;
 
 
-    public PostTask(String name, String priority, String startDate, String endDate,
-                    String dueDate, String category, String status, String owner) {
+    public PostTask(String name, String priority,
+                    String startDate, String endDate,
+                    String dueDate, String category,
+                    String status, String owner) {
         this.name = name;
         this.priority = priority;
         this.startDate = startDate;

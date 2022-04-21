@@ -15,7 +15,8 @@ public class Task {
     private TaskStatus status;
     private Task motherTask;
 
-    public Task(String name, Boolean priority, Date startDate, Date endDate, Date dueDate,
+    public Task(String name, Boolean priority,
+                Date startDate, Date endDate, Date dueDate,
                 TaskCategory taskCategory, TaskStatus taskStatus) {
         this.name = name;
         this.priority = priority;

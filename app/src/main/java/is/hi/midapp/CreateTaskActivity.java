@@ -172,7 +172,22 @@ public class CreateTaskActivity extends AppCompatActivity {
 
     private void changeTask() {
         //TODO: Implement for real
-        createTask();
+        Long ID = getIntent().getLongExtra(CreateTaskActivity.EXTRA_TASK_ID, -1);
+        if(ID == -1) {
+            Toast.makeText(CreateTaskActivity.this, "Error Changing Task!",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            PostTask postTask = new PostTask(mTaskNameText.getText().toString(), String.valueOf(mTaskPrioritySwitch.isChecked()),
+                    String.valueOf(new Date(mTaskDueDateCalendarView.getDate())), String.valueOf(new Date(mTaskDueDateCalendarView.getDate())),
+                    String.valueOf(new Date(eventOccursOn)),
+                    ((TaskCategory) ((TaskCategory) mTaskCategorySpinner.getSelectedItem())).getEnumValue(),
+                    /*"NOT_STARTED"*/
+                    ((TaskStatus) ((TaskStatus) mTaskStatusSpinner.getSelectedItem())).getEnumValue()
+                    , username);
+            NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
+            Call<Task> apiCall = networkCallback.updateATask(ID, postTask);
+            callNetwork(apiCall);
+        }
     }
 
 
@@ -189,7 +204,9 @@ public class CreateTaskActivity extends AppCompatActivity {
                 String.valueOf(new Date(mTaskDueDateCalendarView.getDate())) , String.valueOf(new Date(mTaskDueDateCalendarView.getDate())),
                 String.valueOf(new Date(eventOccursOn)),
                 ((TaskCategory) ((TaskCategory) mTaskCategorySpinner.getSelectedItem())).getEnumValue(),
-                 "NOT_STARTED", username);
+                 /*"NOT_STARTED"*/
+                 ((TaskStatus) ((TaskStatus) mTaskStatusSpinner.getSelectedItem())).getEnumValue()
+                , username);
         NetworkCallback networkCallback = NetworkManager.getService().create(NetworkCallback.class);
         Call<Task> apiCall = networkCallback.addATask(postTask);
         callNetwork(apiCall);

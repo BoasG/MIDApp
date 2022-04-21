@@ -141,6 +141,8 @@
                     android:id="@+id/cancel_change_task_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_weight="1"
                     android:text="@string/cancel_change_task_button" />
 
@@ -148,6 +150,8 @@
                     android:id="@+id/change_task_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_weight="1"
                     android:text="@string/change_task_button" />
             </LinearLayout>
@@ -156,6 +160,9 @@
                 android:id="@+id/delete_task_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="10"
                 android:text="@string/delete_task_button"
                 tools:visibility="gone" />
 

@@ -311,7 +311,7 @@ public class TaskActivity extends AppCompatActivity {
             arrayList.add(new TaskListView(listOfTasks.get(i).getID(),name, status, date, listOfTasks.get(i)));
         }
 
-        // Now create the instance of the NumebrsViewAdapter and pass
+        // Now create the instance of the TaskListViewAdapter and pass
         // the context and arrayList created above
         TaskListViewAdapter taskListViewAdapter = new TaskListViewAdapter(this, arrayList);
 
