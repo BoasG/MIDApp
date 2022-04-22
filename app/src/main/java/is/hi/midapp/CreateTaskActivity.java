@@ -91,6 +91,8 @@ public class CreateTaskActivity extends AppCompatActivity {
         mTaskCategorySpinner.setAdapter(new ArrayAdapter<TaskCategory>
                 (this, android.R.layout.simple_spinner_item, TaskCategory.values()));
         mTaskDueDateCalendarView = (CalendarView) findViewById(R.id.task_due_date_calendarView);
+        mChangeTaskButtonLayout = (LinearLayout)  findViewById(R.id.change_task_button_layout);
+        mDeleteTaskButton = (Button) findViewById(R.id.delete_task_button);
 
         mTaskDueDateCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             //show the selected date as a toast
@@ -108,6 +110,9 @@ public class CreateTaskActivity extends AppCompatActivity {
 
         if(!inEditMode) {
             //Creating a task
+            mChangeTaskButtonLayout.setVisibility(View.GONE);
+            mDeleteTaskButton.setVisibility(View.GONE);
+
             mCreateTaskButton = (Button) findViewById(R.id.create_task_button);
             mCreateTaskButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -129,7 +134,6 @@ public class CreateTaskActivity extends AppCompatActivity {
             mCreateTaskButtonLayout = (LinearLayout) findViewById(R.id.create_task_button_layout);
             mCreateTaskButtonLayout.setVisibility(View.GONE);
 
-            mChangeTaskButtonLayout = (LinearLayout)  findViewById(R.id.change_task_button_layout);
             mChangeTaskButtonLayout.setVisibility(View.VISIBLE);
 
             mChangeTaskButton = (Button) findViewById(R.id.change_task_button);
@@ -149,7 +153,6 @@ public class CreateTaskActivity extends AppCompatActivity {
                 }
             });
 
-            mDeleteTaskButton = (Button) findViewById(R.id.delete_task_button);
             mDeleteTaskButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
