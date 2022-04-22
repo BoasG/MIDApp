@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 import is.hi.midapp.Persistance.Entities.PostTask;
@@ -94,11 +96,13 @@ public class CreateTaskActivity extends AppCompatActivity {
         mChangeTaskButtonLayout = (LinearLayout)  findViewById(R.id.change_task_button_layout);
         mDeleteTaskButton = (Button) findViewById(R.id.delete_task_button);
 
+        eventOccursOn = Calendar.getInstance().getTimeInMillis();
+
         mTaskDueDateCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             //show the selected date as a toast
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
-                Toast.makeText(getApplicationContext(), day + "/" + month + "/" + year, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), day + "/" + month + "/" + year, Toast.LENGTH_LONG).show();
                 Calendar c = Calendar.getInstance();
                 c.set(year, month, day);
                 eventOccursOn = c.getTimeInMillis(); //this is what you want to use later
